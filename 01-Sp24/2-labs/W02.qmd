@@ -1,0 +1,43 @@
+---
+title: "STA6990: Week 2"
+author: "Your Name Here"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  html:
+    embed-resources: true
+editor: source
+---
+
+**1. You drive to work 20 days, keeping track of the commuting time (in minutes) for each trip. Here are the twenty measurements.**
+
+<center>
+25.4, 27.8, 26.8, 24.1, 24.5, <br>
+23.0, 27.5, 24.3, 28.4, 29.0, <br>
+29.4, 24.9, 26.3, 23.5, 28.3, <br>
+27.8, 29.4, 25.7, 24.3, 24.2 
+</center>
+<br>
+**a. Approximate the probability that it takes you under 25 minutes to drive to work.**
+
+**b. Approximate the probability it takes between 25 and 28 minutes to drive to work.**
+
+**c. Suppose one day it takes you 23 minutes to get to work. Would you consider this unusual? Why?**
+
+**2. Suppose you roll three fair dice.**
+
+**a. How many possible outcomes are there?**
+
+**b. Find the probability you roll three fives.**
+
+**c. Find the probability that all three dice show the same number.**
+
+**d. Find the probability that the sum of the dice is equal to 10.**
+
+**3. CHALLENGE. The built-in vector, `letters` contains the 26 lower-case letters of the alphabet.**
+
+**a. Using the `sample()` function, take a sample of 10 letters without replacement from `letters`.**
+
+**b. Using the `sample()` function, take a sample of 10 letters with replacement from `letters`.**
