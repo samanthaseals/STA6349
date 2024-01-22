@@ -1,0 +1,41 @@
+---
+title: "STA6990: Week 3"
+author: "Your Name Here"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  html:
+    embed-resources: true
+editor: source
+---
+
+**1. Suppose we roll two fair dice and you keep track of the larger of the two rolls.**
+
+**a. What is the sample space?**
+    
+**b. Let $X$ = the larger of the two numbers. Derive the probability distribution.**
+
+**c. Verify that your answer in (b) is a valid probability distribution.**
+
+**2. A man with 5 keys wants to open the door and tries keys at random. Exactly one key will open the door. Assume that unsuccessful keys are eliminated from future attempts.**
+
+**a. What is the sample space?**
+
+**b. Let $X$ = the key's number that opens the door. Derive the probability distribution.**
+
+**c. Verify that your answer in (b) is a valid probability distribution.**
+
+**d. Take the code in lecture used to simulate values and edit to simulate 1000 trials. Graph the resulting distribution.**
+
+**3. A standard drug is known to be effective in 80% of the cases in which it is used. A new drug is tested on 100 patients and found to be effective in 85 cases. Is the new drug superior? (Hint: Use R to find the probability of observing 85 or more successes assuming that the new and old drugs are equally effective.)**
+
+**4. CHALLENGE! Let the number of chocolate chips in a certain type of cookie have a Poisson distribution. Suppose that, on average, there are 7 chocolate chips per cookie.**
+
+**a. Use R to find the probability of two chocolate chips in a cookie.**
+
+**b. Use R to find the probability of at least two chocolate chips in a cookie.**
+
+**c. Simulate the results from 10000 cookies and graph the resulting distribution.**
+

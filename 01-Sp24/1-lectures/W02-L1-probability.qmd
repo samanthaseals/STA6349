@@ -286,7 +286,7 @@ $$ P[\text{outcome}] = \frac{\text{number of outcomes meeting criteria}}{\text{t
     
         - $L$ for the person being born in the last half of the year and 
         
-        - $F$ for those born during a montht that is four letters long
+        - $F$ for those born during a month that is four letters long
         
     - Explain the set $L \cap F$ is.
     
@@ -377,7 +377,7 @@ $$
 
 - For any two events, $A$ and $B$,
 
-$$ P[A \cap B] = P[A] + P[B] - P[A \cup B] $$
+$$ P[A \cup B] = P[A] + P[B] - P[A \cap B] $$
 
 <center><img src = "images/W02-L1-b.png" width=500></center>
 

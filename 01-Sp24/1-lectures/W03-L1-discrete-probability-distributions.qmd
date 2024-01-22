@@ -1,0 +1,701 @@
+---
+title: "Discrete Probability Distributions"
+subtitle: "STA6990: Applied Bayesian Analysis"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: uwf2
+    embed-resources: true
+    slide-number: false
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+title-slide-attributes:
+    data-background-image: /Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/title.png
+    data-background-size: contain 
+editor: source
+pdf-separate-fragments: true
+fig-align: center
+---
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Last week we discussed basic probability.
+
+- Today, we will discuss probability distributions.
+
+    - Probability distributions belong to random variables.
+
+- **Random variable**:  A numerical measure of the outcome of a probability experiment. Its value is determined by chance. 
+
+    - **Discrete random variable**: Has a finite or countable number of values. The values can be plotted on a number line with space between each point.
+    
+        - The number of cars that travel through a McDonald's drive through in the next hour.
+
+    - **Continuous random variable**: Has infinitely many values. The values can be plotted on a line in an uninterrupted fashion.
+    
+        - The speed of the next car that passes a state trooper.
+        
+## Random Variables {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- **Random variable (theoretical)**: a function from a sample space, $S$, into the real numbers, $\mathbb{R}$.
+
+    - Notation: random variable is uppercase, e.g., $X$
+    - Notation: realized values are lowercase, e.g., $x$
+    
+- Example: Suppose we toss a fair coin 3 times. 
+
+    - What is the sample space?
+    
+    - What is a random variable we could define given the outcomes?
+    
+## Random Variables {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- **Random variable (theoretical)**: a function from a sample space, $S$, into the real numbers, $\mathbb{R}$.
+
+    - Notation: random variable is uppercase, e.g., $X$
+    - Notation: realized values are lowercase, e.g., $x$
+    
+- Example: Suppose we toss a fair coin 3 times. 
+
+    - What is the sample space?
+    
+        - $S = \{ HHH, HHT, HTH, THH, HTT, THT, TTH, TTT \}$
+    
+    - What is a random variable we could define given the outcomes?
+    
+        - The number of heads flipped.
+    
+    - What is the distribution?      
+    
+## Random Variables {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Example: Suppose we toss a fair coin 3 times. 
+    
+- What is the distribution?  
+    
+<center>    <style type="text/css"> .tg  {border-collapse:collapse;border-spacing:1;margin:1px auto;} .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:24px; overflow:hidden;padding:10px 5px;word-break:normal;} .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:24px;  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;} .tg .tg-wp8o{border-color:#000000;text-align:center;vertical-align:top} @media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;margin: auto 0px;}}</style> <div class="tg-wrap"><table class="tg"><tbody><tr><td class="tg-wp8o">$S$</td><td class="tg-wp8o">HHH</td><td class="tg-wp8o">HHT</td><td class="tg-wp8o">HTH</td><td class="tg-wp8o">THH</td><td class="tg-wp8o">HTT</td><td class="tg-wp8o">THT</td><td class="tg-wp8o">TTH</td><td class="tg-wp8o">TTT</td></tr><tr><td class="tg-wp8o">$X$</td> <td class="tg-wp8o">3</td> <td class="tg-wp8o">2</td> <td class="tg-wp8o">2</td> <td class="tg-wp8o">2</td> <td class="tg-wp8o">1</td> <td class="tg-wp8o">1</td> <td class="tg-wp8o">1</td> <td class="tg-wp8o">0</td> </tr> </tbody> </table></div> </center>
+
+- What about the probability distribution?
+
+## Random Variables {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Example: Suppose we toss a fair coin 3 times. 
+    
+- What is the distribution?  
+    
+<center>    <style type="text/css"> .tg  {border-collapse:collapse;border-spacing:1;margin:1px auto;} .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:24px; overflow:hidden;padding:10px 5px;word-break:normal;} .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:24px;  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;} .tg .tg-wp8o{border-color:#000000;text-align:center;vertical-align:top} @media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;margin: auto 0px;}}</style> <div class="tg-wrap"><table class="tg"><tbody><tr><td class="tg-wp8o">$S$</td><td class="tg-wp8o">HHH</td><td class="tg-wp8o">HHT</td><td class="tg-wp8o">HTH</td><td class="tg-wp8o">THH</td><td class="tg-wp8o">HTT</td><td class="tg-wp8o">THT</td><td class="tg-wp8o">TTH</td><td class="tg-wp8o">TTT</td></tr><tr><td class="tg-wp8o">$X$</td> <td class="tg-wp8o">3</td> <td class="tg-wp8o">2</td> <td class="tg-wp8o">2</td> <td class="tg-wp8o">2</td> <td class="tg-wp8o">1</td> <td class="tg-wp8o">1</td> <td class="tg-wp8o">1</td> <td class="tg-wp8o">0</td> </tr> </tbody> </table></div> </center>
+    
+- What about the probability distribution?
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:24px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:24px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-wp8o{border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;margin: auto 0px;}}</style>
+<div class="tg-wrap"><table class="tg">
+<tbody>
+  <tr>
+    <td class="tg-wp8o">$X$</td>
+    <td class="tg-wp8o">3</td>
+    <td class="tg-wp8o">2</td>
+    <td class="tg-wp8o">1</td>
+    <td class="tg-wp8o">0</td>
+  </tr>
+  <tr>
+    <td class="tg-0lax">$P[X]$</td>
+    <td class="tg-0lax">1/8</td>
+    <td class="tg-0lax">3/8</td>
+    <td class="tg-0lax">3/8</td>
+    <td class="tg-0lax">1/8</td>
+  </tr>
+</tbody>
+</table></div>
+
+
+## Probability Mass Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- **Probability mass function (pmf)** of a discrete random variable $X$,
+
+$$ f_X(x) = P[X = x], \ \forall x$$
+
+- The pmf gives the *point probabilities* of a discrete random variable, $X$.
+
+- **Support set**: values of $x$ such that the values of the pmf are positive.
+
+$$\mathcal{X} = \{x: \ f_X(x) > 0 \}$$
+
+- We must include the support when defining the pmf.
+
+- In our example of flipping a coin three times with $X$ = number of heads flipped, 
+
+    - $\mathcal{X} = \{0, 1, 2, 3\}$,
+    - $0 \le x \le 3$.
+
+## Probability Mass Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Example (Albert, Hu):  Suppose that Peter and Paul play a simple coin game. 
+    
+    - A coin is tossed. 
+    
+        - Heads $\to$ Peter receives \$2 from Paul and
+    
+        - tails $\to$ Peter has to pay \$2 to Paul. 
+    
+    - The game is played for a total of *five coin flips*. 
+    
+    - After the five flips, what is Peter's net gain (in dollars)?
+
+- 2 minutes in breakout room - what are the possible outcomes?
+
+## Random Variables {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+<center><img src = "images/W03-L1-a.png"></center>
+
+## Probability Mass Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Example (Albert, Hu):  Suppose that Peter and Paul play a simple coin game. 
+    
+    - Let's say $G$ = net gain.
+    
+    - If HTHHT is the outcome (recall, heads $\to$ Peter receives \$2 from Paul and tails $\to$ Peter has to pay \$2 to Paul)...
+    
+        - Peter one three times and lost twice.
+        
+    - Net gain is 3(2)-2(2) = 2 dollars.    
+        
+- 2 minutes in breakout room - find the values of $G$ based on the table on the previous slide.
+
+## Probability Mass Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+<center><img src = "images/W03-L1-b.png"></center>
+
+## Probability Mass Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Example (Albert, Hu):  Suppose that Peter and Paul play a simple coin game. 
+
+- 3 minutes in breakout room: complete the following table,
+
+<center><img src = "images/W03-L1-c.png"></center>
+
+## Probability Mass Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+<center><img src = "images/W03-L1-d.png"></center>
+
+## Probability Mass Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Graphically, the probability distribution is as follows,
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+y <- c(-10, -6, -2, 2, 6, 10)
+p <- c(1/32, 5/32, 10/32, 10/32, 5/32, 1/32)
+graph <- tibble(y, p)
+graph %>% 
+  ggplot(aes(x=y, y=p)) +
+  geom_linerange(aes(x=y, ymin=0, ymax=p)) +
+  labs(x = "Expected Gains ($)", y = "Probability of Gain") + 
+  scale_x_continuous(breaks=graph$y) + 
+  theme_bw()
+```
+</center>
+
+## Probability Mass Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Let us simulate data from the distribution.
+
+::: {.panel-tabset}
+
+## $n = 10$
+
+<center>
+```{r}
+#| echo: false
+one_play <- function(){
+  flips <- sample(c("H", "T"), 
+                  size = 5,
+                  replace = TRUE) # draw a sample from the vector 5 times with replacement
+  2 * sum(flips == "H") - 2 * sum(flips == "T") # expected gains is the output
+}
+
+set.seed(1956)
+sim_10 <- tibble(x = replicate(10, one_play())) # simulate 10 experiments
+# sim_10 %>% count(x) # find frequency distribution
+
+y <- c(-10, -6, -2, 2, 6, 10)
+p <- c(0, 1/10, 5/10, 3/10, 1/10, 0)
+graph <- tibble(y, p)
+graph %>% 
+  ggplot(aes(x=y, y=p)) +
+  geom_linerange(aes(x=y, ymin=0, ymax=p)) +
+  labs(x = "Expected Gains ($)", y = "Probability of Gain", subtitle = "n=10") + 
+  scale_x_continuous(breaks=graph$y) + 
+  theme_bw()
+```
+</center>
+
+## $n = 100$
+
+<center>
+```{r}
+#| echo: false
+one_play <- function(){
+  flips <- sample(c("H", "T"), 
+                  size = 5,
+                  replace = TRUE) # draw a sample from the vector 5 times with replacement
+  2 * sum(flips == "H") - 2 * sum(flips == "T") # expected gains is the output
+}
+
+set.seed(256)
+sim_100 <- tibble(x = replicate(100, one_play())) # simulate 100 experiments
+# sim_100 %>% count(x) # find frequency distribution
+
+y <- c(-10, -6, -2, 2, 6, 10)
+p <- c(5/100, 10/100, 33/100, 36/100, 13/100, 3/100)
+graph <- tibble(y, p)
+graph %>% 
+  ggplot(aes(x=y, y=p)) +
+  geom_linerange(aes(x=y, ymin=0, ymax=p)) +
+  labs(x = "Expected Gains ($)", y = "Probability of Gain", subtitle = "n=100") + 
+  scale_x_continuous(breaks=graph$y) + 
+  theme_bw()
+```
+</center>
+
+## $n = 1000$
+
+<center>
+```{r}
+#| echo: false
+one_play <- function(){
+  flips <- sample(c("H", "T"), 
+                  size = 5,
+                  replace = TRUE) # draw a sample from the vector 5 times with replacement
+  2 * sum(flips == "H") - 2 * sum(flips == "T") # expected gains is the output
+}
+
+set.seed(8571)
+sim_1000 <- tibble(x = replicate(1000, one_play())) # simulate 1000 experiments
+# sim_1000 %>% count(x) # find frequency distribution
+
+y <- c(-10, -6, -2, 2, 6, 10)
+p <- c(27/1000, 192/1000, 305/1000, 301/1000, 143/1000, 32/1000)
+graph <- tibble(y, p)
+graph %>% 
+  ggplot(aes(x=y, y=p)) +
+  geom_linerange(aes(x=y, ymin=0, ymax=p)) +
+  labs(x = "Expected Gains ($)", y = "Probability of Gain", subtitle = "n=1000") + 
+  scale_x_continuous(breaks=graph$y) + 
+  theme_bw()
+```
+</center>
+
+## Code 
+```{r}
+#| eval: false
+one_play <- function(){
+  flips <- sample(c("H", "T"), 
+                  size = 5,
+                  replace = TRUE) # draw a sample from the vector 5 times with replacement
+  2 * sum(flips == "H") - 2 * sum(flips == "T") # expected gains is the output
+}
+
+set.seed(8571)
+sim_1000 <- tibble(x = replicate(1000, one_play())) # simulate 1000 experiments
+sim_1000 %>% count(x) # find frequency distribution
+
+y <- c(-10, -6, -2, 2, 6, 10)
+p <- c(27/1000, 192/1000, 305/1000, 301/1000, 143/1000, 32/1000)
+graph <- tibble(y, p)
+graph %>% 
+  ggplot(aes(x=y, y=p)) +
+  geom_linerange(aes(x=y, ymin=0, ymax=p)) +
+  labs(x = "Expected Gains ($)", y = "Probability of Gain", subtitle = "n=1000") + 
+  scale_x_continuous(breaks=graph$y) + 
+  theme_bw()
+```
+
+:::
+
+## Cumulative Distribution Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- **Cumulative distribution function (cdf)** of a random variable $X$, denoted $F_X(x)$,
+
+$$F_X(x) = P_X[X \le x], \ \forall x,$$
+
+- Note: $P_X[X \le x]$ indicates that we are summing the individual probabilities from the lower bound to $x$.
+
+- **Theorem**: The function $F(x)$ is a cdf iff the following conditions hold:
+
+    1. $\lim_{x\to-\infty} F(x) = 0$ and $\lim_{x\to\infty} F(x) = 1$
+    
+        - i.e., $p \in [0, 1]$
+
+    2. $F(x)$ is a nondecreasing function of $x$.
+    
+        - i.e., it can increase or stay constant; it does not decrease
+    
+    3. $F(x)$ is right-continuous, i.e., for every $x_0$, $\lim_{x \to x_0^+} F(x) = F(x_0)$.
+    
+        - this is only a concern on step functions
+
+## Cumulative Distribution Function {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- In our previous example, we can convert the graphs of the pmf to graphs of the cdf.
+
+::: {.panel-tabset}
+
+## $n = 10$
+
+<center>
+```{r}
+#| echo: false
+one_play <- function(){
+  flips <- sample(c("H", "T"), 
+                  size = 5,
+                  replace = TRUE) # draw a sample from the vector 5 times with replacement
+  2 * sum(flips == "H") - 2 * sum(flips == "T") # expected gains is the output
+}
+
+set.seed(1956)
+sim_10 <- tibble(x = replicate(10, one_play())) # simulate 10 experiments
+# sim_10 %>% count(x) # find frequency distribution
+
+y <- c(-10, -6, -2, 2, 6, 10)
+p <- c(0, 
+       0 + 1/10, 
+       0 + 1/10 + 5/10, 
+       0 + 1/10 + 5/10 + 3/10, 
+       0 + 1/10 + 5/10 + 3/10 + 1/10, 
+       0 + 1/10 + 5/10 + 3/10 + 1/10 + 0)
+graph <- tibble(y, p)
+graph %>% 
+  ggplot(aes(x=y, y=p)) +
+  geom_line(aes(x=y, y=p)) +
+  labs(x = "Expected Gains ($)", y = "Cumulative Probability of Gain", subtitle = "n=10") + 
+  scale_x_continuous(breaks=graph$y) + 
+  theme_bw()
+```
+</center>
+
+## $n = 100$
+
+<center>
+```{r}
+#| echo: false
+one_play <- function(){
+  flips <- sample(c("H", "T"), 
+                  size = 5,
+                  replace = TRUE) # draw a sample from the vector 5 times with replacement
+  2 * sum(flips == "H") - 2 * sum(flips == "T") # expected gains is the output
+}
+
+set.seed(256)
+sim_100 <- tibble(x = replicate(100, one_play())) # simulate 100 experiments
+# sim_100 %>% count(x) # find frequency distribution
+
+y <- c(-10, -6, -2, 2, 6, 10)
+p <- c(5/100, 
+       5/100 + 10/100, 
+       5/100 + 10/100 + 33/100, 
+       5/100 + 10/100 + 33/100 + 36/100, 
+       5/100 + 10/100 + 33/100 + 36/100 + 13/100, 
+       5/100 + 10/100 + 33/100 + 36/100 + 13/100 + 3/100)
+graph <- tibble(y, p)
+graph %>% 
+  ggplot(aes(x=y, y=p)) +
+  geom_line(aes(x=y, y=p)) +
+  labs(x = "Expected Gains ($)", y = "Cumulative Probability of Gain", subtitle = "n=100") + 
+  scale_x_continuous(breaks=graph$y) + 
+  theme_bw()
+```
+</center>
+
+## $n = 1000$
+
+<center>
+```{r}
+#| echo: false
+one_play <- function(){
+  flips <- sample(c("H", "T"), 
+                  size = 5,
+                  replace = TRUE) # draw a sample from the vector 5 times with replacement
+  2 * sum(flips == "H") - 2 * sum(flips == "T") # expected gains is the output
+}
+
+set.seed(8571)
+sim_1000 <- tibble(x = replicate(1000, one_play())) # simulate 1000 experiments
+# sim_1000 %>% count(x) # find frequency distribution
+
+y <- c(-10, -6, -2, 2, 6, 10)
+p <- c(27/1000, 
+       27/1000 + 192/1000, 
+       27/1000 + 192/1000 + 305/1000, 
+       27/1000 + 192/1000 + 305/1000 + 301/1000, 
+       27/1000 + 192/1000 + 305/1000 + 301/1000 + 143/1000, 
+       27/1000 + 192/1000 + 305/1000 + 301/1000 + 143/1000 + 32/1000)
+graph <- tibble(y, p)
+graph %>% 
+  ggplot(aes(x=y, y=p)) +
+  geom_line(aes(x=y, y=p)) +
+  labs(x = "Expected Gains ($)", y = "Cumulative Probability of Gain", subtitle = "n=1000") + 
+  scale_x_continuous(breaks=graph$y) + 
+  theme_bw()
+```
+</center>
+
+## Code 
+```{r}
+#| eval: false
+one_play <- function(){
+  flips <- sample(c("H", "T"), 
+                  size = 5,
+                  replace = TRUE) # draw a sample from the vector 5 times with replacement
+  2 * sum(flips == "H") - 2 * sum(flips == "T") # expected gains is the output
+}
+
+set.seed(8571)
+sim_1000 <- tibble(x = replicate(1000, one_play())) # simulate 1000 experiments
+sim_1000 %>% count(x) # find frequency distribution
+
+y <- c(-10, -6, -2, 2, 6, 10)
+p <- c(27/1000, 
+       27/1000 + 192/1000, 
+       27/1000 + 192/1000 + 305/1000, 
+       27/1000 + 192/1000 + 305/1000 + 301/1000, 
+       27/1000 + 192/1000 + 305/1000 + 301/1000 + 143/1000, 
+       27/1000 + 192/1000 + 305/1000 + 301/1000 + 143/1000 + 32/1000)
+graph <- tibble(y, p)
+graph %>% 
+  ggplot(aes(x=y, y=p)) +
+  geom_line(aes(x=y, y=p)) +
+  labs(x = "Expected Gains ($)", y = "Cumulative Probability of Gain", subtitle = "n=1000") + 
+  scale_x_continuous(breaks=graph$y) + 
+  theme_bw()
+```
+
+:::
+
+## Using The CDF and PMF {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- 3 minutes in breakout room to discuss following questions. 
+
+    - Room 1: What is the chance that Peter will win at least $5 in this game?
+    
+    - Room 2: What is the probability Peter wins money in this game?
+    
+    - Room 3: What is the probability that Peter wins no money?
+    
+- **Nominate one team member to present results.**
+    
+    
+## Using The CDF and PMF {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Room 1: What is the chance that Peter will win at least $5 in this game?
+
+## Using The CDF and PMF {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Room 1: What is the chance that Peter will win at least $5 in this game?
+
+$$
+\begin{align*}
+P[G \ge 5] &= P[G = 6 \text{ or } G = 10] \\
+&= P[G = 6] + P[G = 10] \\
+&= 5/32 + 1/32 \\
+&= 0.1875
+\end{align*}
+$$
+    
+## Using The CDF and PMF {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Room 2: What is the probability Peter wins money in this game?
+
+## Using The CDF and PMF {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Room 2: What is the probability Peter wins money in this game?
+
+$$
+\begin{align*}
+P[\text{Peter wins}] &= P[G > 10] \\
+&= P[G = 2] + P[G = 6] + P[G = 10] \\
+&= 10/32 + 5/32 + 1/32 \\
+&= 0.50
+\end{align*}
+$$
+
+## Using The CDF and PMF {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+    
+- Room 3: What is the probability that Peter wins no money?
+
+## Using The CDF and PMF {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+    
+- Room 3: What is the probability that Peter wins no money?
+
+$$
+\begin{align*}
+P[\text{Peter does not win}] &= 1 - P[\text{Peter wins}] \\
+&= 1 - 0.50 \\
+&= 0.50
+\end{align*}
+$$
+
+## Discrete Uniform Distribution {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- $X \sim$ discrete uniform if
+
+$$P[X=x|N] = \frac{1}{N}; \ x = 1, 2, ..., N$$ 
+
+- with mean
+
+$$E[X] = \frac{N + 1}{2}$$
+
+- and variance,
+
+$$\text{var}[X] = \frac{(N+1)(N-1)}{12}.$$
+
+
+
+
+
+
+
+## Bernoulli Distribution {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- A Bernoulli trial is a single experiment with only two possible outcomes.
+
+- We define the Bernoulli random variable $X=1$ if "success" occurs and $X=0$ if "failure" occurs.
+    
+    - $P[\text{success}] = p$ and 
+    
+- $X \sim$ Bernoulli if
+
+$$P[X=x|p] = p^x(1-p)^{1-x}$$ 
+
+- with mean,
+
+$$E[X] = p$$ 
+
+- and variance,
+
+$$\text{var}[X] = p(1-p).$$
+
+
+## Binomial Distribution {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- A binomial trial is a sequence of $n$ Bernoulli trials, where $n$ is a fixed number.
+
+    - The trials are independent and identically distributed.
+    
+        - Each Bernoulli trial can end in one of the two options;
+        
+        - The outcome on one Bernoulli trial does not affect the outcome(s) on other Bernoulli trials. 
+
+- We define the binomial random variable $X$ = the total number of successes out of $n$ trials.
+    
+- $X \sim$ binomial if
+
+$$P[X=x|n,p] = {n \choose x} p^x (1-p)^{n-k}, \ x = 0, 1, ..., n$$ 
+
+
+## Binomial Distribution {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- We define the binomial random variable $X$ = the total number of successes out of $n$ trials.
+    
+- $X \sim$ binomial if
+
+$$P[X=x|n,p] = {n \choose x} p^x (1-p)^{n-x}, \ x = 0, 1, ..., n$$ 
+
+- with mean,
+
+$$E[X] = np$$ 
+
+- and variance,
+
+$$\text{var}[X] = np(1-p)$$
+
+## Poisson Distribution {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- We define the Poisson random variable $X$ = total number of occurrences in a given time or space
+    
+- $X \sim$ Poisson if
+
+$$P[X=x|\lambda] = \frac{e^{-\lambda} \lambda^x}{x!}, \ x = 0, 1, ..., \ \text{and }\lambda > 0$$ 
+
+- with mean,
+
+$$E[X] = \lambda$$ 
+
+- and variance,
+
+$$\text{var}[X] = \lambda$$
+
+## Negative Binomial Distribution {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- If, when looking at count data, the variance $>$ the mean indicates overdispersion in the data.
+
+    - Negative binomial is appropriate in this case.
+    
+- $X \sim$ negative binomial if
+
+$$
+\begin{align*}
+P[X=x] &=  {r-x-1 \choose x} p^r (1-p)^x, \ x = 0, 1, 2, ... \\
+&= {y-1 \choose r-1} p^r (1-p)^{y-r}, \ y = r, r+1, r+2, ...
+\end{align*}
+$$
+
+- Here, $X$ = the number of failures until the $r^{\text{th}}$ success, and $Y = X+r = $ the total number of trials until the $r^{\text{th}}$ success.
+
+## Negative Binomial Distribution {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Recall the binomial distribution,
+
+$$P[X=x] = {n \choose x} p^x (1-p)^{n-x}$$
+
+- Note that the negative binomial distribution can be rewritten as 
+
+$$
+\begin{align*}
+P[X=x] &=  {r-x-1 \choose x} p^r (1-p)^x \\
+&=  (-1)^x {-r \choose x} p^r (1-p)^x
+\end{align*}
+$$
+
+- This is why it is called the negative binomial.
+
+## Negative Binomial Distribution {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- $X \sim$ negative binomial if
+
+$$ P[X=x] =  {r-x-1 \choose x} p^r (1-p)^x, \ x = 0, 1, 2, ...$$
+
+- with mean,
+
+$$E[X] = \frac{r(1-p)}{p}$$ 
+
+- and variance,
+
+$$\text{var}[X] = \frac{r(1-p)}{p^2}$$
+
+## Wrap Up {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- We have discussed discrete probability distributions today.
+
+- We will use the rest of the class time to work on the weekly activity's questions related to today's lecture.
+
+    - Let's focus on #4 tonight.
+
+- Goal: at 7:00 we reconvene to have each group share their solutions.
+
+
+
