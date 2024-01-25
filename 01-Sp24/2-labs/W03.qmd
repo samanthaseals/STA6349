@@ -33,9 +33,40 @@ editor: source
 
 **4. CHALLENGE! Let the number of chocolate chips in a certain type of cookie have a Poisson distribution. Suppose that, on average, there are 7 chocolate chips per cookie.**
 
-**a. Use R to find the probability of two chocolate chips in a cookie.**
+**a. Use R to find the probability of X chocolate chips in a cookie.**
 
-**b. Use R to find the probability of at least two chocolate chips in a cookie.**
+**b. Use R to find the probability of at least X chocolate chips in a cookie.**
 
 **c. Simulate the results from 10000 cookies and graph the resulting distribution.**
+
+**$^*$ Note: Room 1, X = 2; Room 2, X = 4; Room 3, X = 8.**
+
+---
+
+**5. You are waiting at your local ATM machine and as usual, you are waiting in a line. Suppose you know that your waiting time can be between 0 to 5 minutes and any value between 0 and 5 minutes is equally likely.**
+
+**a. What is the average wait time?**
+
+**b. What is the standard deviation of wait time?**
+
+**c. Find the probability that you wait more than 2 minutes.**
+
+**d. Find the probability you wait between 2 and 3 minutes.**
+
+**e. Use R to answer parts c and d.**
+
+**6. In the "waiting for a bus" example, suppose you record the median time T (in minutes) you wait for the bus on three days. The density function is given by**
+
+$$f_T(t) = \frac{6t(10-t)}{1000}, \ \ t \in (0, 10)$$
+
+**a. CHALLENGE! Graph the density function. (Hint: look into creating a vector with `seq()`.)**
+
+**b. CHALLENGE! Graph the density function and show what area corresponds to $P[5 \le T \le 7]$. Note: it is okay if you do not figure this out, but please document what you attempted for full credit.**
+
+**7. Suppose that the AAA reports that the average time it takes to respond to an emergency call on the highway is 25 minutes. Assume that the times to respond to emergency calls are approximately Normally distributed with mean 25 minutes and standard deviation 4 minutes.**
+
+**a. Use R to answer this question. If your car gets stuck on a highway and you call the AAA for help, find the probability that it will take longer than 30 minutes to get help.**
+
+**b. Use R to answer this question. Find the probability that you’ll wait between 20 and 30 minutes for help.**
+
 
