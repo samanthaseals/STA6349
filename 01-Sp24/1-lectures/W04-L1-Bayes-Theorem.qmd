@@ -1,0 +1,431 @@
+---
+title: "Bayes' Rule and its Application"
+subtitle: "STA6990: Applied Bayesian Analysis"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: uwf2
+    embed-resources: true
+    slide-number: false
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+title-slide-attributes:
+    data-background-image: /Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/title.png
+    data-background-size: contain 
+editor: source
+pdf-separate-fragments: true
+fig-align: center
+---
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Two weeks ago, we discussed general probability rules.
+
+- Last week, we discussed probability distributions in general.
+
+- This week, we are discussing Bayes Theorem.
+
+## Bayesian Thinking {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- We continuously update our knowledge about the world as we accumulate lived experiences, or collect data. 
+
+- Suppose there’s a new Italian restaurant. 
+
+    - It has a 5-star online rating and we love Italian food!
+    
+        - We anticipate that it will be delicious.
+        
+        - What if it isn't?
+        
+## Bayesian Thinking {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center><img src = "images/W04-L1-a.png"></center>     
+
+## Bayesian Thinking {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- This is Bayesian thinking.
+
+<center><img src = "images/W04-L1-b.png"></center>    
+
+## Bayesian Thinking {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Bayesian and frequentist analyses share a common goal: to learn from data about the world around us. 
+
+    - There is not one superior approach.
+
+    - Remember: we are building your statistical toolbox!
+
+- Both Bayesian and frequentist analyses use data to fit models, make predictions, and evaluate hypotheses. 
+
+    - When working with the same data, they will typically produce a similar set of conclusions.
+
+## Bayesian Thinking {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- In the Bayesian framework: 
+
+    - A probability measures the relative plausibility of an event.
+    
+    - A Bayesian hypothesis test seeks to answer: In light of the observed data, what’s the chance that the hypothesis is correct?
+
+- In the frequentist framework: 
+
+    - A probability measures the long-run relative frequency of a repeatable event.   
+    
+    - A frequentist hypothesis test seeks to answer: If in fact the hypothesis is correct, what’s the chance I’d have observed this, or even more extreme, data?
+
+## Bayesian Thinking {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- The Bayesian framework depends upon prior information, data, and the balance between them.
+
+<center><img src="images/W04-L1-c.png"></center>
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's consider the `fake_news` dataset from the `bayesrules` package.
+
+    - This is a sample of 150 articles which were posted on Facebook and fact checked by five BuzzFeed journalists.
+
+```{r}
+#| echo: false
+library(bayesrules)
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+data(fake_news)
+head(fake_news, n=3)
+```
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+```{r}
+fake_news %>% 
+  tabyl(type) %>% 
+  adorn_totals("row")
+```
+
+- We could build a very simple news filter: since most articles are real, we should read and believe all articles. 
+
+    - This filter would solve disregarding real articles at the cost of reading lots of fake news. 
+    
+    - It also only takes into account the overall rates of real and fake news. 
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Suppose that the most recent article posted is titled: "The president has a funny secret!" 
+
+    - The usage of an exclamation point might seem like an odd choice for a real news article...
+
+```{r}
+fake_news %>% 
+  tabyl(title_has_excl, type) %>% 
+  adorn_totals("row")
+```
+
+- In our dataset, 26.67% (16 of 60) of fake news titles but only 2.22% (2 of 90) of real news titles use an exclamation point...
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center><img src="images/W04-L1-d.png"></center>
+
+- We have two pieces of contradictory information! 
+
+    - Prior $\to$ incoming articles are most likely real. 
+    
+    - Data $\to$ the exclamation point is more consistent with fake news.
+    
+- Thinking like Bayesians, we know that balancing both pieces of information is important in developing a posterior understanding of whether the article is fake. 
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let us first describe our prior understanding of whether the new article is fake. 
+
+    - We determined earlier that 40% of articles are fake and 60% are real. 
+    
+    - That is, before even reading the new article, there’s a 0.4 prior probability that it’s fake and a 0.6 prior probability it’s not. 
+
+- Mathematically, we describe our prior model,
+
+$$P[B]=0.40$$
+
+$$P[B^c] = 0.60$$
+
+- Is this a valid probability model?
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Next, we formalize our observation that the exclamation point data is more compatible with fake news than with real news. 
+
+- Recall that if an article is fake, then there' about a 26.67% chance it uses exclamation points in the title. 
+
+    - If an article is real, then there's only about a 2.22% chance it uses exclamation points. 
+    
+- When stated this way, it's clear that the occurrence of exclamation points is conditioned upon if the article is fake. 
+
+$$P[A|B] = 0.2667$$
+
+$$P[A|B^c] = 0.0222$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's pause to discuss conditional probabilities.
+
+- Comparing $P[A|B]$ to $P[A]$ shows us how $B$ informs our understanding of $A$
+
+- Example: if somebody practices the clarinet every day, then their probability of joining an orchestra's clarinet section is higher than that among the general population.
+
+$$P[\text{orchestra}|\text{practice}] > P[\text{orchestra}]$$
+
+- Example: if you're a fastidious hand washer, then you’re less likely to get the flu:
+
+$$P[\text{flu}|\text{wash hands}] < P[\text{flu}]$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- The order for conditional probability matters.
+
+- It is typically the case that $P[A|B] \ne P[B|A]$.
+
+- Example: if we pass a puppy on the street,
+
+$$P[\text{adorable} | \text{puppy}] = 1$$
+
+- Example: if we pass an adorable object,
+
+$$P[\text{puppy} | \text{adorable}] < 1$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- What if information about $B$ does not change our understanding of $A$?
+
+- Example: we have a pair of yellow shoes and a pair of blue shoes.
+
+    - We pick a shoe at random. $P[\text{right foot}] = 2/4$.
+    
+    - We pick a yellow shoe at random. $P[\text{right foot} | \text{yellow}] = 1/2$.
+    
+    - i.e., information about the shoe color does not give us information about the foot.
+    
+    - i.e., shoe color and foot are independent.
+    
+- Recall, if events $A$ and $B$ are independent,
+
+$$P[A|B] = P[A]$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's return to the fake news example.
+
+$$P[A|B] = 0.2667$$
+
+$$P[A|B^c]=0.0222$$
+
+- These tell us that 26.67% of fake articles use exclamation points while 2.22% of real articles use exclamation points.
+
+    - Thus, the data provides evidence that the article is fake.
+    
+- While we know the new article uses exclamation points ($A$), we do not know if the article is fake ($B$) or real ($B^c$).
+
+    - We are using the approximate *likelihood* or observing data $A$ under different secnarios of the uncertain article status.
+    
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}    
+
+- Let us now discuss the likelihood function, $L(\cdot | A)$, and compare to the conditional probability function, $P(\cdot | B)$.
+
+- When $B$ is known, the conditional probability function, $P(\cdot|B)$ allows us to compare the probabilities of an unknown event, $A$ or $A^c$, occurring with $B$:
+
+$$P[A|B] \text{ and } P[A^c|B]$$
+
+- When $A$ is known, the likelihood function allows us to evaluate the relative compatibility of data $A$ with events $B$ or $B^c$:
+
+$$L[B|A] \text{ and } L[B^c|A]$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}    
+
+- It is important for us to note that the likelihood function is *not* a probability function.
+
+    - This is a framework to compare the relative comparability of our exclamation point data with $B$ and $B^c$.
+
+- The prior evidence suggested the article is most likely real,
+
+$$P[B] = 0.4 < P[B^c] = 0.6$$
+
+- The data, however, is more consistent with the article being fake,
+
+$$L[B|A] = 0.2667 > L[B^c|A] = 0.0222$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}   
+
+- We can summarize our probabilities in a table, but some calculations are required.
+
+- Here's what we know,
+
+|           | $B$ | $B^c$ | Total |
+|-----------|-----|-------|-------|
+| $A$       |     |       |       |
+| $A^c$     |     |       |       |
+| **Total** | 0.4 | 0.6   | 1     |
+
+- We also know $P[A|B] = 0.2667$ and $P[A|B^c]=0.0222$.
+
+- Thus,
+
+$$
+\begin{align*}
+P[A \cap B] &= P[A|B] \times P[B] \\
+&= 0.2667 \times 0.4 \\
+&= 0.1067
+\end{align*}
+$$
+
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}   
+
+- Here's what we know,
+
+|           | $B$ | $B^c$ | Total |
+|-----------|-----|-------|-------|
+| $A$       | 0.1067    |       |       |
+| $A^c$     |     |       |       |
+| **Total** | 0.4 | 0.6   | 1     |
+
+- We also know $P[A|B] = 0.2667$ and $P[A|B^c]=0.0222$.
+
+- Thus,
+
+$$
+\begin{align*}
+P[A^c \cap B] &= P(A^c|B) \times P[B]  \\
+&= (1-P[A|B]) \times P[B] \\
+&= (1-0.2667) \times 0.4 \\
+&= 0.2933
+\end{align*}
+$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}   
+
+- Here's what we know,
+
+|           | $B$ | $B^c$ | Total |
+|-----------|-----|-------|-------|
+| $A$       | 0.1067 |       |       |
+| $A^c$     | 0.2933 |       |       |
+| **Total** | 0.4 | 0.6   | 1     |
+
+- We also know $P[A|B] = 0.2667$ and $P[A|B^c]=0.0222$.
+
+- Thus,
+
+$$
+\begin{align*}
+P[A \cap B^c] &= P[A|B^c] \times P[B^c]  \\
+&= 0.0222 \times 0.6 \\
+&= 0.0133
+\end{align*}
+$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}   
+
+- Here's what we know,
+
+|           | $B$ | $B^c$ | Total |
+|-----------|-----|-------|-------|
+| $A$       | 0.1067 | 0.0133 |       |
+| $A^c$     | 0.2933 |       |       |
+| **Total** | 0.4 | 0.6   | 1     |
+
+- We also know $P[A|B] = 0.2667$ and $P[A|B^c]=0.0222$.
+
+- Thus,
+
+$$
+\begin{align*}
+P[A^c \cap B^c] &= P[A^c|B^c] \times P[B^c]  \\
+&= 0.9778 \times 0.6 \\
+&= 0.5867
+\end{align*}
+$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}   
+
+- Here's what we know,
+
+|           | $B$ | $B^c$ | Total |
+|-----------|-----|-------|-------|
+| $A$       | 0.1067 | 0.0133 |       |
+| $A^c$     | 0.2933 | 0.5867 |       |
+| **Total** | 0.4 | 0.6   | 1     |
+
+- Finally,
+
+$$
+\begin{align*}
+&P[A] = 0.1067 + 0.0133 = 0.12 \\
+&P[A^c] = 0.2933 + 0.5867 = 0.88
+\end{align*}
+$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}   
+
+- Using rules of probability, we have completed the table.
+
+|           | $B$ | $B^c$ | Total |
+|-----------|-----|-------|-------|
+| $A$       | 0.1067 | 0.0133 | 0.12 |
+| $A^c$     | 0.2933 | 0.5867 | 0.88 |
+| **Total** | 0.4 | 0.6   | 1     |
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}   
+
+- Now that we have more information, we can answer the question: what is the probability that the latest article is fake?
+
+- We will use the posterior probability, $P[B|A]$, which is found using Bayes' Rule.
+
+- **Bayes' Rule**: For events $A$ and $B$, 
+
+$$P[B|A] = \frac{P[A \cap B]}{P[A]} = \frac{P[B] \times L[B|A]}{P[A]}$$
+
+- But really, we can think about it like this,
+
+$$\text{posterior} = \frac{\text{prior} \times \text{likelihood}}{\text{normalizing constant}}$$
+
+## Bayes' Rule {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}   
+
+- We can use Bayes' Rule with our news analysis.
+
+$$
+\begin{align*}
+P[B|A] &= \frac{P[B] \times L[B|A]}{P[A]} \\
+&= \frac{P[B] \times P[A|B]}{P[A]} \\
+&= \frac{0.4 \times 0.2667}{0.12} \\
+&= 0.889
+\end{align*}
+$$
+
+- Thus, the probability that the article under analysis is fake is 88.9%.
+
+## Wrap Up {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}   
+
+- This week, we have introduced Bayesian thinking and Bayes' Rule.
+
+- On your own, you will work through simulating probabilities and create a presentation with your group.
+
+- Next week, we will dive into more formal Bayesian analysis content.
+
+    - Monday: prior distributions.
+    
+    - Wednesday: data distributions.
+    
+    
+
+
+
+
+
+
