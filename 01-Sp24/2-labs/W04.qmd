@@ -1,0 +1,75 @@
+---
+title: "STA6990: Week 4"
+author: "Your Name Here"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  html:
+    embed-resources: true
+editor: source
+---
+
+Note from Dr. Seals: my intention is for you to complete 1 and 2 on Monday and complete 3 on Wednesday. 
+
+**1. On your own, work through [2.1.5: Posterior Simulation](https://www.bayesrulesbook.com/chapter-2#building-a-bayesian-model-for-events) to simulate from the posterior found in the in-class example. Use your birthday (mmdd) as the seed.**
+
+**2. Discuss and compare graphs with your groupmates. What do you notice?**
+
+**3. On your own, replicate the in-class example, but let $A$ be the event that at least one of the words in the title is in all caps and $B$ be the event that the article is fake.**
+
+```{r}
+#| eval: false
+#| echo: false
+# please remove this comment and the two above it when you work on your homework
+
+library(bayesrules)
+library(janitor)
+library(tidyverse)
+
+data(fake_news) 
+
+fake_news <- fake_news %>%
+  mutate(all_caps = title_caps > 0)
+
+fake_news %>% 
+  tabyl(all_caps, type) %>% 
+  adorn_totals("row")
+```
+
+**Use the starter code to work through finding the probability that the article is fake given at least one word in the title is in all caps, $P[B|A]$.**
+
+
+**4. With your group, work through [2.2: Pop vs. Soda vs. Coke](https://www.bayesrulesbook.com/chapter-2#michelle-simple). You will create a brief (no more than 10 minutes) presentation deriving the posterior probabilities. Yes, you must use Quarto slides.**
+
+**Group 1: demonstrate finding $P[M]$.**
+
+**Group 2: demonstrate finding $P[N]$.**
+
+**Group 3: demonstrate finding $P[S]$.**
+
+**Group 4: demonstrate finding $P[W]$.**
+
+**All UWF students have access to Zoom ([log in here](http://uwf.zoom.com)). Please have one team member record your presentation *to the cloud*. Your deliverable here is the resulting link with passcode. These will be posted to Canvas to share with the class.**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
