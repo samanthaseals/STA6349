@@ -1,0 +1,269 @@
+---
+title: "Simulating the Beta-Binomial"
+subtitle: "STA6990: Applied Bayesian Analysis"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: uwf2
+    embed-resources: true
+    slide-number: false
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+title-slide-attributes:
+    data-background-image: /Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/title.png
+    data-background-size: contain 
+editor: source
+pdf-separate-fragments: true
+fig-align: center
+---
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Recall the example from last lecture,
+
+    - "Michelle" has decided to run for president and you're her campaign manager for the state of Florida. 
+    
+    - We specified Beta(45, 55) as our prior and Bin(50, $\pi$) as our data distribution.
+    
+- Today we will go through posterior simulation.
+
+    - This allows us to approximate posterior features.
+    
+## Simulating the Beta-Binomial {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let us simulate and plot the resulting data.
+
+::: {.panel-tabset}
+
+## Seed 4815
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+set.seed(4815)
+michelle_sim_4815 <- tibble(pi = rbeta(10000, 45, 55)) %>%
+  mutate(y = rbinom(10000, size = 50, prob = pi))
+ggplot(michelle_sim_4815, aes(x = pi, y = y)) + 
+  geom_point(aes(color = (y == 30)), size = 0.1) +
+  ylim(0, 40) +
+  xlim(0, 1) +
+  theme_bw()
+```
+</center>
+
+## Seed 819571
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+set.seed(819571)
+michelle_sim_819571 <- tibble(pi = rbeta(10000, 45, 55)) %>%
+  mutate(y = rbinom(10000, size = 50, prob = pi))
+ggplot(michelle_sim_819571, aes(x = pi, y = y)) + 
+  geom_point(aes(color = (y == 30)), size = 0.1) +
+  ylim(0, 40) +
+  xlim(0, 1) +
+  theme_bw()
+```
+</center>
+
+## Seed 111
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+set.seed(111)
+michelle_sim_111 <- tibble(pi = rbeta(10000, 45, 55)) %>%
+  mutate(y = rbinom(10000, size = 50, prob = pi))
+ggplot(michelle_sim_111, aes(x = pi, y = y)) + 
+  geom_point(aes(color = (y == 30)), size = 0.1) +
+  ylim(0, 40) +
+  xlim(0, 1) +
+  theme_bw()
+```
+</center>
+
+## Seed 98765
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+set.seed(98765)
+michelle_sim_98765 <- tibble(pi = rbeta(10000, 45, 55)) %>%
+  mutate(y = rbinom(10000, size = 50, prob = pi))
+ggplot(michelle_sim_98765, aes(x = pi, y = y)) + 
+  geom_point(aes(color = (y == 30)), size = 0.1) +
+  ylim(0, 40) +
+  xlim(0, 1) +
+  theme_bw()
+```
+</center>
+
+## Code
+```{r}
+#| eval: false
+
+library(tidyverse)
+
+set.seed(4815)
+michelle_sim_4815 <- tibble(pi = rbeta(10000, 45, 55)) %>%
+  mutate(y = rbinom(10000, size = 50, prob = pi))
+ggplot(michelle_sim_4815, aes(x = pi, y = y)) + 
+  geom_point(aes(color = (y == 30)), size = 0.1) +
+  ylim(0, 40) +
+  xlim(0, 1) +
+  theme_bw()
+
+set.seed(819571)
+michelle_sim_819571 <- tibble(pi = rbeta(10000, 45, 55)) %>%
+  mutate(y = rbinom(10000, size = 50, prob = pi))
+ggplot(michelle_sim_819571, aes(x = pi, y = y)) + 
+  geom_point(aes(color = (y == 30)), size = 0.1) +
+  ylim(0, 40) +
+  xlim(0, 1) +
+  theme_bw()
+
+set.seed(111)
+michelle_sim_111 <- tibble(pi = rbeta(10000, 45, 55)) %>%
+  mutate(y = rbinom(10000, size = 50, prob = pi))
+ggplot(michelle_sim_111, aes(x = pi, y = y)) + 
+  geom_point(aes(color = (y == 30)), size = 0.1) +
+  ylim(0, 40) +
+  xlim(0, 1) +
+  theme_bw()
+
+set.seed(98765)
+michelle_sim_98765 <- tibble(pi = rbeta(10000, 45, 55)) %>%
+  mutate(y = rbinom(10000, size = 50, prob = pi))
+ggplot(michelle_sim_98765, aes(x = pi, y = y)) + 
+  geom_point(aes(color = (y == 30)), size = 0.1) +
+  ylim(0, 40) +
+  xlim(0, 1) +
+  theme_bw()
+```
+
+:::
+
+## Simulating the Beta-Binomial {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Now, we are interested in $y=30$, so we will filter our data down to that, then plot the density
+
+::: {.panel-tabset}
+
+## Seed 4815
+
+<center>
+```{r}
+#| echo: false
+michelle_posterior_4815 <- michelle_sim_4815 %>% filter(y == 30)
+ggplot(michelle_posterior_4815, aes(x = pi)) + 
+  geom_density() +
+  ylim(0, 10) + xlim(0, 1) +
+  theme_bw()
+```
+</center>
+
+## Seed 819571
+
+<center>
+```{r}
+#| echo: false
+michelle_posterior_819571 <- michelle_sim_819571 %>% filter(y == 30)
+ggplot(michelle_posterior_819571, aes(x = pi)) + 
+  geom_density() +
+  ylim(0, 10) + xlim(0, 1) +
+  theme_bw()
+```
+</center>
+
+## Seed 111
+
+<center>
+```{r}
+#| echo: false
+michelle_posterior_111 <- michelle_sim_111 %>% filter(y == 30)
+ggplot(michelle_posterior_111, aes(x = pi)) + 
+  geom_density() +
+  ylim(0, 10) + xlim(0, 1) +
+  theme_bw()
+```
+</center>
+
+## Seed 98765
+
+<center>
+```{r}
+#| echo: false
+michelle_posterior_98765 <- michelle_sim_98765 %>% filter(y == 30)
+ggplot(michelle_posterior_98765, aes(x = pi)) + 
+  geom_density() +
+  ylim(0, 10) + xlim(0, 1) +
+  theme_bw()
+```
+</center>
+
+## Code
+```{r}
+#| eval: false
+
+michelle_posterior_4815 <- michelle_sim_4815 %>% filter(y == 30)
+ggplot(michelle_posterior_4815, aes(x = pi)) + 
+  geom_density() +
+  ylim(0, 10) + xlim(0, 1) +
+  theme_bw()
+
+
+michelle_posterior_819571 <- michelle_sim_819571 %>% filter(y == 30)
+ggplot(michelle_posterior_819571, aes(x = pi)) + 
+  geom_density() +
+  ylim(0, 10) + xlim(0, 1) +
+  theme_bw()
+
+
+michelle_posterior_111 <- michelle_sim_111 %>% filter(y == 30)
+ggplot(michelle_posterior_111, aes(x = pi)) + 
+  geom_density() +
+  ylim(0, 10) + xlim(0, 1) +
+  theme_bw()
+
+
+michelle_posterior_98765 <- michelle_sim_98765 %>% filter(y == 30)
+ggplot(michelle_posterior_98765, aes(x = pi)) + 
+  geom_density() +
+  ylim(0, 10) + xlim(0, 1) +
+  theme_bw()
+```
+
+:::
+
+## Today's Assignment {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Both groups: create an animated graph! [https://gganimate.com/](https://gganimate.com/)
+
+- Group 1: same value of $n$, animate over $y = \{1, 5, 10, 15, 30\}$.
+
+- Group 2: same value of $y$, animate over $n = \{10, 100, 1000, 10000, 100000\}$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
