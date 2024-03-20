@@ -1,0 +1,471 @@
+---
+title: "Gamma-Poisson Conjugate Family"
+subtitle: "STA6990: Applied Bayesian Analysis"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: uwf2
+    embed-resources: true
+    slide-number: false
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+title-slide-attributes:
+    data-background-image: /Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/title.png
+    data-background-size: contain 
+editor: source
+pdf-separate-fragments: true
+fig-align: center
+---
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Recall the Beta-Binomial from last week,
+
+    - $y \sim \text{Bin}(n, \pi)$ (data distribution)
+    
+    - $\pi \sim \text{Beta}(\alpha, \beta)$ (prior distribution)
+    
+    - $\pi|y \sim \text{Beta}(\alpha+y, \beta+n-y)$ (posterior distribution)
+    
+- Beta-Binomial is from a *conjugate family* (i.e., the posterior is from the same model family as the prior).
+
+- Today, we will learn about another conjugate family, the Gamma-Poisson.
+
+## Poisson Data Model {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Suppose we are now interested in modeling the number of spam calls we receive.
+
+    - This means that we are modeling the rate, $\lambda$.
+    
+- We take a guess and say that the value of $\lambda$ that is most likely is around 5, but may reasonably range between 2 and 7 calls per day.
+
+- Why can't we use the Beta distribution as our prior?
+
+## Poisson Data Model {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Suppose we are now interested in modeling the number of spam calls we receive.
+
+    - This means that we are modeling the rate, $\lambda$.
+    
+- We take a guess and say that the value of $\lambda$ that is most likely is around 5, 
+
+    - ... but reasonably ranges between 2 and 7 calls per day.
+
+- Why can't we use the Beta distribution as our prior distribution?
+
+    - $\lambda$ is the mean of a count $\to$ $\lambda \in \mathbb{R}^+$ $\to$ $\lambda$ is not limited to $[0, 1]$ $\to$ broken assumption for Beta distribution.
+        
+- Why can't we use the binomial distribution as our data distribution?        
+
+    - $Y_i$ is a count $\to$ $Y_i \in \mathbb{N}^+$ $\to$ $Y_i$ is not limited to $\{0, 1\}$ $\to$ broken assumption for Binomial distribution.
+
+## Poisson Data Model {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- We will use the Poisson distribution to model the number of spam calls. 
+
+    - $Y \in \{0, 1, 2, ...\}$.
+    
+- $Y$ is the number of independent events that occur in a fixed amount of time or space. 
+
+    - $\lambda > 0$ is the rate at which these events occur.
+
+- Mathematically, 
+
+$$ Y | \lambda \sim \text{Pois}(\lambda),$$
+
+- with pmf,
+
+$$f(y|\lambda) = \frac{\lambda^y e^{-\lambda}}{y!}, \ \ \ y \in \{0,1, 2, ... \}$$
+
+## Poisson Data Model {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- $\lambda$ defines the mean and the variance
+
+    - The shape of the Poisson pmf depends on $\lambda$.
+
+<center><img src = "images/W09-L1-a.png"></center>
+
+- This helps us understand that the Poisson is for *count* data.
+
+## Poisson Data Model {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- We will be taking samples from different days. 
+
+    - We assume that the daily number of calls may different from day to day.
+    
+    - On each day $i$,
+    
+$$Y_i|\lambda \sim \text{Pois}(\lambda)$$  
+
+- This has a unique pmf for each day ($i$),
+
+$$f(y_i|\lambda) = \frac{\lambda^{y_i} e^{-\lambda}}{y_i!}$$
+
+- But really, we are interested in the *joint* information in our sample of $n$ observations.
+
+    - The joint pmf gives us this information.
+    
+## Poisson Data Model {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}    
+
+- The joint pmf for the Poisson,
+    
+$$
+\begin{align*}
+f\left(\overset{\to}{y_i}|\lambda\right) &= \prod_{i=1}^n f(y_i|\lambda) \\ 
+&= f(y_1|\lambda) \times f(y_2|\lambda) \times ... \times f(y_n|\lambda) \\
+&= \frac{\lambda^{y_1}e^{-\lambda}}{y_1!} \times \frac{\lambda^{y_2}e^{-\lambda}}{y_2!} \times ... \times \frac{\lambda^{y_n}e^{-\lambda}}{y_n!} \\
+&= \frac{\left( \lambda^{y_1} \lambda^{y_2} \cdot \cdot \cdot \ \lambda^{y_n}  \right) \left( e^{-\lambda} e^{-\lambda} \cdot \cdot \cdot e^{-\lambda}\right)}{y_1! y_2! \cdot \cdot \cdot y_n!} \\
+&= \frac{\lambda^{\sum y_i}e^{-n\lambda}}{\prod_{i=1}^n y_i !}
+\end{align*}
+$$    
+
+## Poisson Data Model {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}    
+
+- If the joint pmf for the Poisson is
+
+$$f\left(\overset{\to}{y_i}|\lambda\right) = \frac{\lambda^{\sum y_i}e^{-n\lambda}}{\prod_{i=1}^n y_i !}$$
+
+- then the likelihood function for $\lambda > 0$ is
+
+$$
+\begin{align*}
+L\left(\lambda|\overset{\to}{y_i}\right) &= \frac{\lambda^{\sum y_i}e^{-n\lambda}}{\prod_{i=1}^n y_i !} \\
+& \propto \lambda^{\sum y_i} e^{-n\lambda}
+\end{align*}
+$$
+
+## Gamma Prior {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- If $\lambda$ is a continuous random variable that can take on any positive value ($\lambda > 0$), then the variability may be modeled with the Gamma distribution with
+
+    - shape hyperparameter $s>0$
+    
+    - rate hyperparameter $r>0$.
+    
+- Thus,
+
+$$\lambda \sim \text{Gamma}(s, r)$$
+    
+- and the Gamma pdf is given by
+
+$$f(\lambda) = \frac{r^s}{\Gamma(s)} \lambda^{s-1} e^{-r\lambda}$$
+
+## Gamma Prior {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Your turn! Take the following code and play with the parameters to see what the Gamma distribution looks like.
+
+```{r}
+#| eval: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(s, r) + theme_bw()
+```
+
+- Let's explore the following situation, under different values of $r$ and $s$,
+
+    - $r = s$
+    - $r > s$
+    - $r < s$
+    
+## Gamma Prior {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+::: {.panel-tabset}
+
+## $r = s = 1$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(1,1) + theme_bw() + xlim(0, 12)+ ylim(0, 4)
+```    
+</center>
+
+## $r = s = 5$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(5,5) + theme_bw() + xlim(0, 12)+ ylim(0, 4)
+```    
+</center>
+
+## $r = s = 10$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(10,10) + theme_bw()  + xlim(0, 12) + ylim(0, 4)
+```    
+</center>
+
+## $r = s = 100$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(100,100) + theme_bw() + xlim(0, 12) + ylim(0, 4)
+```  
+</center>
+
+:::
+
+## Gamma Prior {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+::: {.panel-tabset}
+
+## $r > s; s = 5, r = 6$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(5, 6) + theme_bw() + xlim(0, 30) + ylim(0, 2)
+```  
+</center>
+
+## $r > s; s = 5, r = 10$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(5, 10) + theme_bw() + xlim(0, 30) + ylim(0, 2)
+```  
+</center>
+
+## $r > s; s = 5, r = 100$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(5, 25) + theme_bw()+ xlim(0, 30) + ylim(0, 2)
+```  
+</center>
+
+:::
+
+## Gamma Prior {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+::: {.panel-tabset}
+
+## $r < s; s = 5, r = 4$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(5, 4) + theme_bw() +xlim(0,30) + ylim(0,0.8)
+```  
+</center>
+
+## $r < s; s = 10, r = 5$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(10, 5) + theme_bw() +xlim(0,30) + ylim(0,0.8)
+```  
+</center>
+
+## $r < s; s = 100, r = 5$
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_gamma(100, 5) + theme_bw() + xlim(0,30) + ylim(0,0.8)
+```  
+</center>
+
+:::
+
+## Gamma Prior {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Let's now tune our prior. 
+
+- We are assuming $\lambda \approx 5$, somewhere between 2 and 7.
+
+- We know the mean of the gamma distribution,
+
+$$E(\lambda) = \frac{s}{r} \approx 5 \to 5r \approx s$$
+
+- Your turn! Use the `plot_gamma()` function to figure out what value of $s$ and $r$ we need.
+
+## Gamma Prior {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+::: {.panel-tabset}
+
+## Gamma(5, 1)
+
+<center>
+```{r}
+#| echo: false
+plot_gamma(5, 1) + theme_bw() + ylim(0,0.35) + xlim(0, 20)
+```  
+</center>
+
+## Gamma(10, 2)
+
+<center>
+```{r}
+#| echo: false
+plot_gamma(10, 2) + theme_bw() + ylim(0,0.35) + xlim(0, 20)
+```  
+</center>
+
+## Gamma(15, 3)
+
+<center>
+```{r}
+#| echo: false
+plot_gamma(15, 3) + theme_bw() + ylim(0,0.35) + xlim(0, 20)
+```  
+</center>
+
+:::
+
+## Gamma-Poisson Conjugacy {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Let $\lambda > 0$ be an unknown *rate* parameter and $(Y_1, Y_2, ... , Y_n)$ be an independent sample from the Poisson distribution.
+
+- The Gamma-Poisson Bayesian model is as follows:
+
+$$
+\begin{align*}
+Y_i | \lambda &\overset{ind}\sim \text{Pois}(\lambda) \\
+\lambda &\sim \text{Gamma}(s, r) \\
+\lambda | \overset{\to}y &\sim \text{Gamma}\left( s + \sum y_i, r + n \right)
+\end{align*}
+$$
+
+- The proof can be seen in section 5.2.4 of the textbook.
+
+## Gamma-Poisson Conjugacy {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Suppose we use Gamma(10, 2) as the prior for $\lambda$, the daily rate of calls.
+
+- On four separate days in the second week of August (i.e., independent days), we received $\overset{\to}y = (6, 2, 2, 1)$ calls.
+
+- Your turn! Use the `plot_poisson_likelihood()` function:
+
+```{r}
+#| eval: false
+plot_poisson_likelihood(y = c(6, 2, 2, 1), lambda_upper_bound = 10)
+```
+
+- Notes:
+
+    - `lambda_upper_bound` limits the $x$ axis -- recall that $\lambda \in (0, \infty)$!
+    
+    - `lambda_upper_bound`'s default value is 10.
+    
+    
+
+## Gamma-Poisson Conjugacy {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+<center>
+```{r}
+#| echo: false
+plot_poisson_likelihood(y = c(6, 2, 2, 1), lambda_upper_bound = 10) + theme_bw()
+```
+</center>
+
+## Gamma-Poisson Conjugacy {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- We can see that the average is around 2.75.
+
+- We can also verify that --
+
+```{r}
+mean(c(6, 2, 2, 1))
+```
+
+- We know our prior distribution is Gamma(10, 2) and the data distribution is Pois(2.75).
+
+- Thus, the posterior is as follows,
+
+$$
+\begin{align*}
+\lambda | \overset{\to}y &\sim \text{Gamma}\left( s + \sum y_i, r + n \right) \\
+&\sim \text{Gamma}\left(10 + 11, 2 + 4 \right) \\
+&\sim \text{Gamma}\left(21, 6 \right)
+\end{align*}
+$$
+
+## Gamma-Poisson Conjugacy {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Your turn! Use the `plot_gamma_poisson()` function:
+
+```{r}
+#| eval: false
+plot_gamma_poisson(shape = 10, rate = 2, sum_y = 11, n = 4)
+```
+
+## Gamma-Poisson Conjugacy {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+<center>
+```{r}
+#| echo: false
+plot_gamma_poisson(shape = 10, rate = 2, sum_y = 11, n = 4) + theme_bw()
+```
+<center>
+
+## Gamma-Poisson Conjugacy {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Your turn! What is different if we had used Gamma(15, 3) as our prior?
+
+## Gamma Prior {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+::: {.panel-tabset}
+
+## Gamma(10, 2)
+<center>
+```{r}
+#| echo: false
+plot_gamma_poisson(shape = 10, rate = 2, sum_y = 11, n = 4) + xlim(0, 15) + ylim(0, 0.6)+ theme_bw()
+```
+</center>
+
+## Gamma(15, 3)
+<center>
+```{r}
+#| echo: false
+plot_gamma_poisson(shape = 15, rate = 3, sum_y = 11, n = 4) + xlim(0, 15) + ylim(0, 0.6) + theme_bw()
+```
+</center>
+
+:::
+
+
+
+
+
+
+
+
+
+
+
+
+
