@@ -1,0 +1,220 @@
+---
+title: "Posterior Inference and Prediction: Part 2"
+subtitle: "STA6990: Applied Bayesian Analysis"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: false
+format: 
+  revealjs:
+    theme: uwf2
+    embed-resources: true
+    slide-number: false
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+title-slide-attributes:
+    data-background-image: /Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/title.png
+    data-background-size: contain 
+editor: source
+pdf-separate-fragments: true
+fig-align: center
+---
+
+## Working Example {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+::: {.panel-tabset}
+
+## Problem Statement
+
+- Imagine you find yourself standing at the Museum of Modern Art (MoMA) in New York City, captivated by the artwork in front of you. 
+    
+- While understanding that "modern" art doesn’t necessarily mean "new" art, a question still bubbles up: what are the chances that this modern artist is Gen X or even younger, i.e., born in 1965 or later? 
+    
+- Let $\pi$ denote the proportion of artists represented in major U.S. modern art museums that are Gen X or younger. 
+    
+- The Beta(4,6) prior model for $\pi$ reflects our own very vague prior assumption that major modern art museums disproportionately display artists born before 1965, i.e., $\pi$  most likely falls below 0.5. 
+    
+- After all, "modern art" dates back to the 1880s and it can take a while to attain such high recognition in the art world.
+
+## Prior
+
+<center>
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+plot_beta(4,6) + theme_bw() + ggtitle("Beta(4,6")
+```
+</center>
+    
+
+## Load Packages
+
+```{r}
+library(bayesrules)
+library(tidyverse)
+library(rstan)
+library(bayesplot)
+library(broom.mixed)
+library(janitor)
+```
+
+## Load Data
+
+```{r}
+data("moma_sample")
+moma_sample %>% head(n=3)
+```
+    
+:::    
+    
+## Posterior Simulation {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+::: {.panel-tabset} 
+
+## Define 
+
+```{r}
+# STEP 1: DEFINE the model
+art_model <- "
+  data {
+    int<lower = 0, upper = 100> Y;
+  }
+  parameters {
+    real<lower = 0, upper = 1> pi;
+  }
+  model {
+    Y ~ binomial(100, pi);
+    pi ~ beta(4, 6);
+  }
+"
+```
+
+## Simulate
+
+```{r}
+# STEP 2: SIMULATE the posterior
+art_sim <- stan(model_code = art_model, data = list(Y = 14),  chains = 4, iter = 5000*2, seed = 84735)
+```
+    
+## Trace 
+
+<center>
+```{r}
+# Parallel trace plot
+mcmc_trace(art_sim, pars = "pi", size = 0.5) + xlab("iteration")
+```
+</center>
+
+## Density
+
+<center>
+```{r}
+# Density plot
+mcmc_dens_overlay(art_sim, pars = "pi")
+```
+</center>
+
+## Lag
+
+<center>
+```{r}
+# Autocorrelation plot
+mcmc_acf(art_sim, pars = "pi")
+```
+</center>
+
+:::
+
+## Posterior Simulation {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- As we saw last week, the posterior was Beta(18, 92).
+
+- We will use the `tidy()` function from the `broom.mixed` package.
+
+```{r}
+library(broom.mixed)
+tidy(art_sim, conf.int = TRUE, conf.level = 0.95)
+```
+
+- The approximate middle 95% CI for $\pi$ is (0.100, 0.239).
+
+- Our approximation of the actual posterior median is 0.162.
+
+## Posterior Simulation {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- We can use the `mcmc_areas()` function from the `bayesrules` package to get a corresponding graph,
+
+<center>
+```{r}
+mcmc_areas(art_sim, pars = "pi", prob = 0.95)
+```
+</center>
+
+:::
+
+## Posterior Simulation {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Unfortunately, `tidy()` does not give everything we may be interested in.
+
+    - We can save the Markov chain values to a dataset and analyze. 
+
+```{r}
+# Store the 4 chains in 1 data frame
+art_chains_df <- as.data.frame(art_sim, pars = "lp__", include = FALSE)
+dim(art_chains_df)
+head(art_chains_df, n=3)
+```
+
+## Posterior Simulation {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- We can then summarize the Markov chain values,
+
+```{r}
+art_chains_df %>% 
+  summarize(post_mean = mean(pi), 
+            post_median = median(pi),
+            post_mode = sample_mode(pi),
+            lower_95 = quantile(pi, 0.025),
+            upper_95 = quantile(pi, 0.975))
+```
+
+- We have reproduced/verified the results from `tidy()` (and then some!)
+
+## Posterior Simulation {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Now that we have saved the Markov chain values, we can use them to answer questions about the data.
+
+- Recall, we were interested in testing the claim that fewer than 20% of major museum artists are Gen X.
+
+```{r}
+art_chains_df %>% 
+  mutate(exceeds = pi < 0.20) %>% 
+  tabyl(exceeds)
+```
+
+- By the posterior, there is an 84.6% chance that Gen X artist representation is under 20%.
+
+## Posterior Simulation {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Let us compare the results between using conjugate family knowledge and MCMC.
+
+<center><img src = "images/W14-L1-a.png"></center>
+
+- From this, we can see that MCMC gave us an accurate approximation.
+
+- We should use this as "proof" that the approximations are "reliable" for non-conjugate families.
+
+    - Always look at diagnostics!
+    
+## Wrap Up {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Wednesday: modeling 
+
+- Next week: Project 2 
+
+- Week after: final exam time 
+    

@@ -1,0 +1,527 @@
+---
+title: "Approximating the Posterior: Part 2"
+subtitle: "STA6990: Applied Bayesian Analysis"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: false
+format: 
+  revealjs:
+    theme: uwf2
+    embed-resources: true
+    slide-number: false
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+title-slide-attributes:
+    data-background-image: /Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/title.png
+    data-background-size: contain 
+editor: source
+pdf-separate-fragments: true
+fig-align: center
+---
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Before Spring Break, we discussed simulating the posterior.
+
+    - Grid approximation
+    
+    - Markov chains
+    
+- There are times we can't derive what the posterior is.    
+
+    - We then approximate the posterior using simulated samples.
+    
+- However, we need to remember that we are *simulating* data.
+
+    - The MCMC method mimics a random sample that converges to the posterior.
+    
+    - Simulations are not perfect!
+    
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}     
+
+- Simulations are not perfect...
+
+    - What does a good Markov chain look like?
+    
+    - How can we tell if the Markov chain sample produces a reasonable approximation of the posterior?
+    
+    - How big should our Markov chain sample size be?
+    
+- Unfortunately there is no one answer here.
+
+    - You will learn through experience, much like other nuanced areas of statistics.
+    
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}      
+    
+- Today, we will discuss diagnostic tools.
+
+    - Trace plots
+    
+    - Parallel chains
+    
+    - Effective sample size
+    
+    - Autocorrelation
+    
+    - $\hat{R}$
+
+## Trace Plots {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+<center><img src = "images/W12-L1-a.png" width = 1200></center>
+
+- Chain A has not stabilized after 5000 iterations.
+
+    - It has not "found" or does not know how to explore the range of posterior plausible $\pi$ values.
+
+    - The downward trend also hints against independent noise. 
+    
+## Trace Plots {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+<center><img src = "images/W12-L1-a.png" width = 1200></center>    
+
+- We say that Chain A is mixing slowly. 
+
+    - The more Markov chains behave like fast mixing (noisy) independent samples, the smaller the error in the resulting posterior approximation.
+
+## Trace Plots {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+<center><img src = "images/W12-L1-b.png" width = 1200></center>
+
+- Chain B is not great, either -- it gets stuck when looking at a smaller value of $\pi$.
+
+## Trace Plots {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+- Realistically, we are only going to do simulations when we can't specify the posterior, thus, need to approximate it.
+
+    - i.e., we won't be able to compare the simulation results to the "true" results.
+    
+- If we see bad trace plots:
+
+    - Check the model (... or your code). Are the assumed prior and data models appropriate? 
+
+    - Run the chain for more iterations. Sometimes we just need a longer run to iron out issues.
+
+## Parallel Chains {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+- Recall from the last lecture, our simulation produced four parallel Markov chains.
+
+::: {.panel-tabset}
+
+## Stan Output
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+library(janitor)
+library(bayesplot)
+library(bayesrules)
+library(rstan)
+
+
+# STEP 1: DEFINE the model
+bb_model <- "
+  data {
+    int<lower = 0, upper = 10> Y;
+  }
+  parameters {
+    real<lower = 0, upper = 1> pi;
+  }
+  model {
+    Y ~ binomial(10, pi);
+    pi ~ beta(2, 2);
+  }
+"
+
+# STEP 2: SIMULATE the posterior
+bb_sim <- stan(model_code = bb_model, data = list(Y = 9), 
+               chains = 4, iter = 5000*2, seed = 84735)
+```
+
+## Trace Plot
+
+<center>
+```{r}
+#| echo: false
+
+# Look at trace plot
+mcmc_trace(bb_sim, pars = "pi", size = 0.1)
+```
+</center>
+
+## Density Plot
+
+<center>
+```{r}
+#| echo: false
+
+# Density plots of individual chains
+mcmc_dens_overlay(bb_sim, pars = "pi") + 
+  ylab("density")
+```
+</center>
+
+## Code
+
+```{r}
+#| eval: false
+
+library(janitor)
+library(bayesplot)
+library(bayesrules)
+library(rstan)
+library(tidyverse)
+
+# STEP 1: DEFINE the model
+bb_model <- "
+  data {
+    int<lower = 0, upper = 10> Y;
+  }
+  parameters {
+    real<lower = 0, upper = 1> pi;
+  }
+  model {
+    Y ~ binomial(10, pi);
+    pi ~ beta(2, 2);
+  }
+"
+
+# STEP 2: SIMULATE the posterior
+bb_sim <- stan(model_code = bb_model, data = list(Y = 9), 
+               chains = 4, iter = 5000*2, seed = 84735)
+
+# Look at trace plot
+mcmc_trace(bb_sim, pars = "pi", size = 0.1)
+
+# Density plots of individual chains
+mcmc_dens_overlay(bb_sim, pars = "pi") + 
+  ylab("density")
+```
+
+:::
+
+## Parallel Chains {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+- Let's now consider a smaller simulation, where $n=50$ (recall, overall $n=100$, but half is for burn-in).
+
+::: {.panel-tabset}
+
+## Stan Output
+
+```{r}
+#| echo: false
+
+# STEP 2: SIMULATE the posterior
+bb_sim_short <- stan(model_code = bb_model, data = list(Y = 9), 
+                     chains = 4, iter = 50*2, seed = 84735)
+```
+
+
+## Trace Plot
+
+<center>
+```{r}
+#| echo: false
+
+# Look at trace plot
+mcmc_trace(bb_sim_short, pars = "pi")
+```
+</center>
+
+## Density Plot
+
+<center>
+```{r}
+#| echo: false
+
+# Density plots of individual chains
+mcmc_dens_overlay(bb_sim_short, pars = "pi") + 
+  ylab("density")
+```
+</center>
+
+## Code
+
+```{r}
+#| eval: false
+
+# STEP 2: SIMULATE the posterior
+bb_sim_short <- stan(model_code = bb_model, data = list(Y = 9), 
+                     chains = 4, iter = 50*2, seed = 84735)
+
+# Look at trace plot
+mcmc_trace(bb_sim_short, pars = "pi")
+
+# Density plots of individual chains
+mcmc_dens_overlay(bb_sim_short, pars = "pi") + 
+  ylab("density")
+```
+
+:::
+
+## Parallel Chains {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+::: {.panel-tabset}
+
+## Trace (50 iterations)
+
+<center>
+```{r}
+#| echo: false
+
+# Look at trace plot
+mcmc_trace(bb_sim_short, pars = "pi")
+```
+</center>
+
+## Trace (10,000 iterations)
+
+<center>
+```{r}
+#| echo: false
+
+# Look at trace plot
+mcmc_trace(bb_sim, pars = "pi")
+```
+</center>
+
+## Density (50 iterations)
+
+<center>
+```{r}
+#| echo: false
+
+# Density plots of individual chains
+mcmc_dens_overlay(bb_sim_short, pars = "pi") + 
+  ylab("density")
+```
+</center>
+
+## Density (10,000 iterations)
+
+<center>
+```{r}
+#| echo: false
+
+# Density plots of individual chains
+mcmc_dens_overlay(bb_sim, pars = "pi") + 
+  ylab("density")
+```
+</center>
+
+:::
+
+## Effective Sample Size  {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+- The more a dependent Markov chain behaves like an independent sample, the smaller the error in the resulting posterior approximation. 
+
+    - Plots are great, but numerical assessment can provide more nuanced information.
+
+- **Effective sample size** ($N_{\text{eff}}$): the number of independent sample values it would take to produce an equivalently accurate posterior approximation.
+
+- **Effective sample size ratio**: 
+
+$$\frac{N_{\text{eff}}}{N}$$
+- Generally, we look for the effective sample size, $N_{\text{eff}}$, to be greater than 10% of the actual sample size, $N$. 
+
+## Effective Sample Size  {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+- We will use the `neff_ratio()` function to find this ratio.
+
+- In our example data,
+
+```{r}
+# Calculate the effective sample size ratio - N = 50
+neff_ratio(bb_sim, pars = c("pi"))
+
+# Calculate the effective sample size ratio - N = 10000
+neff_ratio(bb_sim_short, pars = c("pi"))
+```
+
+- Because neither is over 10%, we are not concerned and can proceed.
+
+## Autocorrelation  {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}  
+
+- Autocorrelation allows us to evaluate if our Markov chain sufficiently mimics the behavior of an independent sample. 
+
+- **Autocorrelation**:
+
+    - *Lag 1* autocorrelation measures the correlation between pairs of Markov chain values that are one "step" apart (e.g.,  $\pi_i$ and $\pi_{(i-1)}$; e.g., $\pi_4$ and $\pi_3$).
+
+    - *Lag 2* autocorrelation measures the correlation between pairs of Markov chain values that are two "steps apart (e.g.,  $\pi_i$ and $\pi_{(i-2)}$; e.g., $\pi_4$ and $\pi_2$).
+    
+    - *Lag $k$* autocorrelation measures the correlation between pairs of Markov chain values that are $k$ "steps" apart (e.g.,  $\pi_i$ and $\pi_{(i-k)}$; e.g., $\pi_4$ and $\pi_{(4-k)}$).
+
+
+- Strong autocorrelation or dependence is a bad thing.
+
+    - It goes hand in hand with small effective sample size ratios.
+    
+    - These provide a warning sign that our resulting posterior approximations might be unreliable. 
+    
+## Autocorrelation  {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>
+<img src = "images/W12-L1-c.png" width = 1200>
+</center>
+
+- No obvious patterns in the trace plot; dependence is relatively weak.
+
+- Autocorrelation plot quickly drops off and is effectively 0 by lag 5.
+
+- Confirmation that our Markov chain is mixing quickly.
+
+    - i.e., quickly moving around the range of posterior plausible $\pi$ values
+    
+    - i.e., at least mimicking an independent sample.
+
+## Autocorrelation  {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>
+<img src = "images/W12-L1-d.png" width = 1200>
+</center>
+
+- This is an "unhealthy" Markov chain.
+
+- Trace plot shows strong trends $\to$ autocorrelation in the Markov chain values.
+
+- Slow decrease in autocorrelation plot indicates that the dependence between chain values does not quickly fade away.
+
+    - At lag 20, the autocorrelation is still $\sim$ 90%.
+
+## Fast vs. Slow Mixing Markov Chains  {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- **Fast mixing** chains: 
+
+    - The chains move "quickly" around the range of posterior plausible values
+    
+    - The autocorrelation among the chain values drops off quickly.
+    
+    - The effective sample size ratio is reasonably large.
+    
+- **Slow mixing** chains:
+
+    - The chains move "slowly" around the range of posterior plauslbe values.
+    
+    - The autocorrelation among the chainv alues drops off very slowly.
+    
+    - The effective sample size ratio is small.
+    
+- What do we do if we have a slow mixing chain?
+
+    - Increase the chain size :)
+    
+    - Thin the Markov chain :|
+
+## Thinning Markov Chains {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Let's thin our original results, `bb_sim`, to every tenth value using the `thin` argument in `stan()`.
+
+::: {.panel-tabset}
+
+## Stan output
+
+```{r}
+#| echo: false
+
+# Simulate a thinned MCMC sample
+thinned_sim <- stan(model_code = bb_model, data = list(Y = 9), 
+                    chains = 4, iter = 5000*2, seed = 84735, thin = 10)
+```
+
+## Trace
+
+<center>
+```{r}
+#| echo: false
+
+mcmc_trace(thinned_sim, pars = "pi")
+```
+</center>
+
+## Autocorrelation
+
+<center>
+```{r}
+#| echo: false
+
+mcmc_acf(thinned_sim, pars = "pi")
+```
+</center>
+
+## Code
+
+```{r}
+#| eval: false
+
+# Simulate a thinned MCMC sample
+thinned_sim <- stan(model_code = bb_model, data = list(Y = 9), 
+                    chains = 4, iter = 5000*2, seed = 84735, thin = 10)
+
+mcmc_trace(thinned_sim, pars = "pi")
+mcmc_acf(thinned_sim, pars = "pi")
+```
+
+:::
+
+## Thinning Markov Chains {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Warning!
+
+    - The benefits of reduced autocorrelation do not necessarily outweigh the loss of chain values.
+    
+    - i.e., 5,000 Markov chain values with stronger autocorrelation may be a better posterior approximation than 500 chain values with weaker autocorrelation.
+    
+- The effectiveness depends on the algorithm used to construct the Markov chain.
+
+    - Folks advise against thinning unless you need memory space on your computer.
+
+## $\hat{R}$ {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+$$\hat{R} \approx \sqrt{\frac{\text{var}_{\text{combined}}}{\text{var}_{\text{within}}}}$$
+
+- where
+
+    - $\text{var}_{\text{combined}}$ is the variability in $\theta$ across all chains combined.
+
+    - $\text{var}_{\text{within}}$ is the typical variability within any individual chain.
+
+
+- $\hat{R}$ compares the variability in sampled $\theta$ values across all chains combined with the variability within each individual change.
+
+    - Ideally, $\hat{R} \approx 1$, showing stability across chains.
+    
+    - $\hat{R} > 1$ indicates instability with the variability in the combined chains larger than that of the variability within the chains.
+    
+    - $\hat{R} > 1.05$ raises red flags about the stability of the simulation.
+
+## $\hat{R}$ {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- We can use the `rhat()` function from the `bayesplot` package to find $\hat{R}$.
+
+```{r}
+rhat(bb_sim, pars = "pi")
+```
+
+- We can see that our simulation is stable.
+
+- If we were to find $\hat{R}$ for the other (obviously bad) simulation, it would be 5.35 😱
+
+## Wrap Up {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- We now know how to simulate posterior distributions *and* look at diagnostics of the simulation.
+
+- Wednesday: Project 1
+
+- Next week: posterior inference and prediction
+
+- Week after: posterior inference and prediction 
+
+- Week after: 😱 Project 2 😱
+
+- Week after: 😱😱😱 final exam time 😱😱😱
+    
