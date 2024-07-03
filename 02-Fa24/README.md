@@ -1,4 +1,4 @@
-# Applied Bayesian Analysis - Spring 2024
+# Applied Bayesian Analysis - Fall 2024
 
 This is the repository for STA6990 - Applied Bayesian Analysis
 
