@@ -1,0 +1,610 @@
+---
+title: "Balance and Sequentiality in Bayesian Analyses"
+subtitle: "STA6349: Applied Bayesian Analysis"
+execute:
+  echo: true
+  warning: false
+  message: false
+format: 
+  revealjs:
+    theme: uwf2
+    embed-resources: true
+    slide-number: false
+    width: 1600
+    height: 900
+    df-print: paged
+    html-math-method: katex
+title-slide-attributes:
+    data-background-image: /Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/title.png
+    data-background-size: contain 
+editor: source
+pdf-separate-fragments: true
+fig-align: center
+---
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+library(janitor)
+library(ggpubr)
+```
+
+- On Monday, we talked about the Beta-Binomial model for binary outcomes with an unknown probability of success, $\pi$.
+
+- We will now discuss sequentality in Bayesian analyses.
+
+- Working example: 
+
+    - In Alison Bechdel's 1985 comic strip The Rule, a character states that they only see a movie if it satisfies the following three rules (Bechdel 1986):
+
+        1. the movie has to have at least two women in it;
+        2. these two women talk to each other; and
+        3. they talk about something besides a man.
+
+    - These criteria constitute the Bechdel test for the representation of women in film. 
+    
+- Thinking of movies you've watched, what percentage of all recent movies do you think pass the Bechdel test? Is it closer to 10%, 50%, 80%, or 100%?
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let  $\pi$, a random value between 0 and 1, denote the unknown proportion of recent movies that pass the Bechdel test. 
+
+- Three friends - the feminist, the clueless, and the optimist - have some prior ideas about $\pi$.
+
+    - Reflecting upon movies that he has seen in the past, the feminist understands that the majority lack strong women characters. 
+    
+    - The clueless doesn’t really recall the movies they've seen, and so are unsure whether passing the Bechdel test is common or uncommon. 
+    
+    - Lastly, the optimist thinks that the Bechdel test is a really low bar for the representation of women in film, and thus assumes almost all movies pass the test. 
+    
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}     
+    
+- Ultimately, the three friends have three different prior models of $\pi$.
+
+    - Let's tune the prior as we learned on Monday.
+    
+```{r}
+#| eval: false
+plot_beta(alpha = 1, beta = 1)
+plot_beta(alpha = 5, beta = 11)
+plot_beta(alpha = 14, beta = 1)
+```    
+    
+- Which one is which?
+
+    - Reflecting upon movies that he has seen in the past, the feminist understands that the majority lack strong women characters. 
+    
+    - The clueless doesn’t really recall the movies they've seen, and so are unsure whether passing the Bechdel test is common or uncommon. 
+    
+    - Lastly, the optimist thinks that the Bechdel test is a really low bar for the representation of women in film, and thus assumes almost all movies pass the test. 
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>
+```{r}
+#| echo: false
+plot_beta(alpha = 1, beta = 1) + theme_bw() + ggtitle("Beta(1, 1)")
+```
+</center>
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>
+```{r}
+#| echo: false
+plot_beta(alpha = 1, beta = 1) + theme_bw() + ggtitle("Beta(1, 1)")
+```
+</center>
+
+- The clueless doesn’t really recall the movies they've seen, and so are unsure whether passing the Bechdel test is common or uncommon. 
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>
+```{r}
+#| echo: false
+plot_beta(alpha = 5, beta = 11) + theme_bw() + ggtitle("Beta(5, 11)")
+```
+</center>
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>
+```{r}
+#| echo: false
+plot_beta(alpha = 5, beta = 11) + theme_bw() + ggtitle("Beta(5, 11)")
+```
+</center>
+
+- Reflecting upon movies that he has seen in the past, the feminist understands that the majority lack strong women characters. 
+    
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>
+```{r}
+#| echo: false
+plot_beta(alpha = 14, beta = 1) + theme_bw() + ggtitle("Beta(14, 1)")
+```
+</center>
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>
+```{r}
+#| echo: false
+plot_beta(alpha = 14, beta = 1) + theme_bw() + ggtitle("Beta(14, 1)")
+```
+</center>
+
+- Lastly, the optimist thinks that the Bechdel test is a really low bar for the representation of women in film, and thus assumes almost all movies pass the test.   
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- The analysts agree to review a sample of $n$ recent movies and record $Y$, the number that pass the Bechdel test. 
+
+    - Because the outcome is yes/no, the binomial distribution is appropriate for the data distribution.
+    
+    - We aren't sure what the population proportion, $\pi$, is, so we will not restrict it to a fixed value. 
+    
+        - Because we know $\pi \in [0, 1]$, the beta distribution is appropriate for the prior distribution.
+    
+$$
+\begin{align*}
+Y|\pi &\sim \text{Bin}(n, \pi) \\
+\pi &\sim \text{Beta}(\alpha, \beta)
+\end{align*}
+$$
+
+- From the previous chapter, we know that this results in the following posterior distribution
+
+$$
+\pi | (Y=y) \sim \text{Beta}(\alpha+y, \beta+n-y)
+$$
+
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Wait!!
+
+    - Everyone gets their own prior?
+    
+    - ... is there a "correct" prior?
+    
+    - ...... is the Bayesian world always this subjective?
+    
+## Introduction {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Wait!!
+
+    - Everyone gets their own prior?
+    
+    - ... is there a "correct" prior?
+    
+    - ...... is the Bayesian world always this subjective?    
+    
+- More clearly defined questions that we *can* actually answer:
+
+    - To what extent might different priors lead the analysts to three different posterior conclusions about the Bechdel test? 
+    
+        - How might this depend upon the sample size and outcomes of the movie data they collect? 
+    
+    - To what extent will the analysts' posterior understandings evolve as they collect more and more data? 
+    
+    - Will they ever come to agreement about the representation of women in film?! 
+    
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}    
+    
+<center>    
+```{r}
+#| echo: false
+ggarrange(plot_beta(alpha = 1, beta = 1) + theme_bw() + ggtitle("Beta(1, 1)") + ylim(0,15),
+          plot_beta(alpha = 5, beta = 11) + theme_bw() + ggtitle("Beta(5, 11)") + ylim(0,15),
+          plot_beta(alpha = 14, beta = 1) + theme_bw() + ggtitle("Beta(14, 1)") + ylim(0,15),
+          ncol = 3)
+```
+</center>
+
+- The differing prior means show disagreement about whether $\pi$ is closer to 0 or 1.
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>    
+```{r}
+#| echo: false
+ggarrange(plot_beta(alpha = 1, beta = 1) + theme_bw() + ggtitle("Beta(1, 1)") + ylim(0,15),
+          plot_beta(alpha = 5, beta = 11) + theme_bw() + ggtitle("Beta(5, 11)") + ylim(0,15),
+          plot_beta(alpha = 14, beta = 1) + theme_bw() + ggtitle("Beta(14, 1)") + ylim(0,15),
+          ncol = 3)
+```
+</center>
+
+- The differing levels of prior variability show that the analysts have different degrees of certainty in their prior information. 
+
+    - The more certain we are about the prior information, the smaller the prior variability. 
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>    
+```{r}
+#| echo: false
+plot_beta(alpha = 14, beta = 1) + theme_bw() + ggtitle("Beta(14, 1)") + ylim(0,15)
+```
+</center>
+
+
+- **Informative prior**: reflects specific information about the unknown variable with high certainty, i.e., low variability.
+    
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+<center>    
+```{r}
+#| echo: false
+plot_beta(alpha = 1, beta = 1) + theme_bw() + ggtitle("Beta(14, 1)") + ylim(0,15)
+```
+</center>
+
+- **Vague or diffuse prior**:  reflects little specific information about the unknown variable. 
+
+    - A **flat prior**, which assigns equal prior plausibility to all possible values of the variable, is a special case.
+    
+    - This is effectively saying "🤷."
+    
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Okay, great - we have different priors.
+
+    - How do the different priors affect the posterior?
+    
+- We have data from FiveThirtyEight, reporting results of the Bechdel test.
+
+```{r}
+set.seed(65821)
+bechdel20 <- bayesrules::bechdel %>% sample_n(20)
+head(bechdel20, n = 3)
+```
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- So how many pass the test in this sample?
+
+```{r}
+bechdel20 %>% tabyl(binary) %>% adorn_totals("row")
+```
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's look at the graphs of just the prior and likelihood.
+
+```{r}
+#| eval: false
+plot_beta_binomial(alpha = 5, beta = 11, y = 9, n = 20, posterior = FALSE) + theme_bw()
+plot_beta_binomial(alpha = 1, beta = 1, y = 9, n = 20, posterior = FALSE) + theme_bw()
+plot_beta_binomial(alpha = 14, beta = 1, y = 9, n = 20, posterior = FALSE) + theme_bw()
+```
+
+- Questions to think about:
+
+    - Whose posterior do you anticipate will look the most like the scaled likelihood? 
+    - Whose do you anticipate will look the least like the scaled likelihood?
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's look at the graphs of just the prior and likelihood.
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 5, beta = 11, y = 9, n = 20, posterior = FALSE) + theme_bw() + ggtitle("The feminist: Beta(5, 11)")
+```
+</center>
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's look at the graphs of just the prior and likelihood.
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 1, beta = 1, y = 9, n = 20, posterior = FALSE) + theme_bw() + ggtitle("The clueless: Beta(1, 1)") 
+```
+</center>
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's look at the graphs of just the prior and likelihood.
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 9, n = 20, posterior = FALSE) + theme_bw() + ggtitle("The optimist: Beta(14, 1)") 
+```
+</center>
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Find the posterior distributions. (i.e., What are the updated parameters?)
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Find the posterior distributions. (i.e., What are the updated parameters?)
+
+<center>
+<table><thead>
+  <tr>
+    <th>Analyst</th>
+    <th>Prior</th>
+    <th>Posterior</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td>the feminist</td>
+    <td>Beta(5, 11)</td>
+    <td>Beta(14, 22)</td>
+  </tr>
+  <tr>
+    <td>the clueless</td>
+    <td>Beta(1, 1)</td>
+    <td>Beta(10, 12)</td>
+  </tr>
+  <tr>
+    <td>the optimist</td>
+    <td>Beta(14, 1)</td>
+    <td>Beta(23, 12)</td>
+  </tr>
+</tbody>
+</table>
+</center>
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's now explore what the posteriors look like.
+
+```{r}
+#| eval: false
+plot_beta_binomial(alpha = 5, beta = 11, y = 9, n = 20) + theme_bw()
+plot_beta_binomial(alpha = 1, beta = 1, y = 9, n = 20) + theme_bw()
+plot_beta_binomial(alpha = 14, beta = 1, y = 9, n = 20) + theme_bw()
+```
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's now explore what the posteriors look like.
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 5, beta = 11, y = 9, n = 20) + theme_bw() + ggtitle("The feminist: Beta(5, 11)")
+```
+</center>
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's now explore what the posteriors look like.
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 1, beta = 1, y = 9, n = 20) + theme_bw() + ggtitle("The clueless: Beta(1, 1)")
+```
+</center>
+
+## Different Priors $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's now explore what the posteriors look like.
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 9, n = 20) + theme_bw() + ggtitle("The optimist: Beta(14, 1)")
+```
+</center>
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- In addition to priors affecting our posterior distributions... the data also affects it.
+
+- Let's now consider three new analysts: they all share the optimistic Beta(14, 1) for $\pi$, however, they have access to different data.
+
+    - Morteza reviews $n = 13$ movies from the year 1991, among which  $Y=6$ (about 46%) pass the Bechdel.
+    
+    - Nadide reviews $n = 63$ movies from the year 2001, among which  $Y=29$ (about 46%) pass the Bechdel.
+    
+    - Ursula reviews $n = 99$ movies from the year 2013, among which  $Y=46$ (about 46%) pass the Bechdel.
+    
+```{r}
+#| eval: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 6, n = 13, posterior = FALSE) + theme_bw()
+plot_beta_binomial(alpha = 14, beta = 1, y = 29, n = 63, posterior = FALSE) + theme_bw()
+plot_beta_binomial(alpha = 14, beta = 1, y = 46, n = 99, posterior = FALSE) + theme_bw()
+```    
+    
+- How will the different data affect the posterior distributions?   
+
+    - Which posterior will be the most in sync with their data?
+    - Which posterior will be the least in sync with their data?
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- How will the different data affect the posterior distributions?   
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 6, n = 13, posterior = FALSE) + theme_bw() + ggtitle("Morteza: Y = 6 of n = 13")
+```   
+</center>
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- How will the different data affect the posterior distributions?   
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 29, n = 63, posterior = FALSE) + theme_bw() + ggtitle("Nadide: Y = 29 of n = 63")
+```   
+</center>
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- How will the different data affect the posterior distributions?   
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 46, n = 99, posterior = FALSE) + theme_bw() + ggtitle("Ursula: Y = 46 of n = 99")
+```   
+</center>
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Find the posterior distributions. (i.e., What are the updated parameters?)
+
+    - Recall that all use the Beta(14, 1) prior.
+    
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Find the posterior distributions. (i.e., What are the updated parameters?)
+
+    - Recall that all use the Beta(14, 1) prior.    
+
+<center>
+<table><thead>
+  <tr>
+    <th>Analyst</th>
+    <th>Data</th>
+    <th>Posterior</th>
+  </tr></thead>
+<tbody>
+  <tr>
+    <td>Morteza</td>
+    <td>$Y=6$ of $n=13$</td>
+    <td>Beta(20, 8)</td>
+  </tr>
+  <tr>
+    <td>Nadide</td>
+    <td>$Y=29$ of $n=63$</td>
+    <td>Beta(45, 35)</td>
+  </tr>
+  <tr>
+    <td>Ursula</td>
+    <td>$Y=46$ of $n=99$</td>
+    <td>Beta(60, 54)</td>
+  </tr>
+</tbody>
+</table>
+</center>
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's now explore what the posteriors look like.
+
+```{r}
+#| eval: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 6, n = 13) + theme_bw() 
+plot_beta_binomial(alpha = 14, beta = 1, y = 29, n = 63) + theme_bw()
+plot_beta_binomial(alpha = 14, beta = 1, y = 46, n = 99) + theme_bw()
+```    
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's now explore what the posteriors look like.
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 6, n = 13) + theme_bw() + ggtitle("Morteza: Y = 6 of n = 13")
+```    
+</center>
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's now explore what the posteriors look like.
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 29, n = 63) + theme_bw() + ggtitle("Nadide: Y = 29 of n = 63")
+```    
+</center>
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's now explore what the posteriors look like.
+
+<center>
+```{r}
+#| echo: false
+plot_beta_binomial(alpha = 14, beta = 1, y = 46, n = 99) + theme_bw() + ggtitle("Ursula: Y = 46 of n = 99")
+```    
+</center>
+
+## Different Data $\to$ Different Posteriors {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- What did we observe?
+
+    - As $n \to \infty$, variance in the likelihood $\to 0$.
+    
+        - In Morteza's small sample of 13 movies, the likelihood function is wide.
+        
+        - In Ursula's larger sample size of 99 movies, the likelihood function is narrower.
+
+    - We see that the narrower the likelihood, the more influence the data holds over the posterior. 
+    
+## Striking a Balance {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+![](images/W07-L2-a.png){fig-align="center"}        
+
+- Overall message: no matter the strength of and discrepancies among their prior understanding of $\pi$, analysts will come to a common posterior understanding in light of strong data.
+
+## Striking a Balance {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- The posterior can either favor the data or the prior.
+
+    - The rate at which the posterior balance tips in favor of the data depends upon the *prior*. 
+
+- Left to right on the graph, the sample size increases from $n=13$ to $n=99$ movies, while preserving the proportion that pass ($\approx$ 0.46).
+
+    - The likelihood's insistence and the data's influence over the posterior increase with sample size.
+
+    - This also means that the influence of our prior understanding diminishes as we gather new data.
+
+- Top to bottom on the graph, priors move from informative (Beta(14,1)) to vague (Beta(1,1)).
+
+    - Naturally, the more informative the prior, the greater its influence on the posterior.
+    
+## Striking a Balance {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"} 
+
+- Let's now explore the roles the prior and data play in a posterior analysis.
+
+```{r}
+#| eval: false
+plot_beta_binomial(alpha = ___, beta = ___, y = ___, n = ___)
+summarize_beta_binomial(alpha = ___, beta = ___, y = ___, n = ___)
+```
+
+- Work with your breakout room to further explore different priors and data. 
+
+- When we reconvene, a representative from each group will present findings.
+    
+## Wrap Up {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- Today we have covered the first half of Chapter 4.
+
+- We discussed how the prior and likelihood affect the posterior.
+
+- When we come back next week, we will discuss (and practice) sequential analysis.
+
+## Homework {background-image="/Users/sseals/Library/CloudStorage/GoogleDrive-sseals@uwf.edu/My Drive/00 - Personal/R/quarto themes/slide.png" background-size="contain"}
+
+- 4.3
+
+- 4.4 
+
+- 4.6
+
+- 4.9
+
