@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: "Applied Bayesian Analysis"
+title: ""
 permalink: /schedule/
 author_profile: false
 ---
