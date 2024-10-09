@@ -1,35 +1,32 @@
 ---
 permalink: /syllabus/
-title: "Applied Bayesian Analysis"
+title: "STA6349: Applied Bayesian Analysis - Fall 2024"
 author_profile: false
 ---
-
-STA6349: Applied Bayesian Analysis - Fall 2024
-======
 
 *The development of this course was supported by the 2023 [BATS program](https://www.stat.uci.edu/bayes-bats/), funded by [NSF IUSE: EHR program](https://www.nsf.gov/pubs/2021/nsf21579/nsf21579.htm) with award numbers [2215879](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2215879&HistoricalAwards=false), [2215920](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2215920&HistoricalAwards=false), and [2215709](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2215709&HistoricalAwards=false).*
 <br>
 
-##### Instructor Information
+### Instructor Information
 
 - Dr. Samantha Seals
 -	Email: sseals@uwf.edu
 -	Office: 4/344
 
-##### Meeting Times and Location
+### Meeting Times and Location
 
 - Day/time: MW 4:00-5:15 pm (Central)
 - Location: 52/163
 - Location: Zoom (see Canvas for link)
 
-##### Office Hours
+### Office Hours
 
 - Monday: 1:00 - 3:00 pm (Central)
 - Tuesday: 1:00 - 3:00 pm (Central)
 - Wednesday: 10:00 am - 12:00 pm (Central)
 - Other times by appointment
 
-##### Class Websites
+### Class Websites
 
 - GitHub repository: [https://github.com/samanthaseals/STA6349](https://github.com/samanthaseals/STA6349)
 
@@ -37,11 +34,11 @@ STA6349: Applied Bayesian Analysis - Fall 2024
 
 - Discord server: Applied Bayesian Analysis - Fall 2024 (see Canvas for link)
 
-##### Course Description 
+### Course Description 
 
 This course is an applied first course in Bayesian data analysis. After reviewing basic probability theory, including marginal and conditional probabilities, Bayes' Theorem will be reviewed and students will learn how to analyze data under the Bayesian framework using prior and data distributions to construct posterior distributions. While many probability distributions will be discussed, emphasis will be placed on the beta-binomial and normal-normal models. Basic simulations will be conducted to estimate posterior distributions and predict the probabilities of outcomes.
 
-##### Topics
+### Topics
 
 - reproducible research using R/RStudio, Quarto, and GitHub 
 - probability theory and Bayes theorem
@@ -54,7 +51,7 @@ This course is an applied first course in Bayesian data analysis. After reviewin
 - making predictions using the posterior distribution
 
 
-##### Student Learning Outcomes
+### Student Learning Outcomes
 
 - demonstrate understanding of the differences between frequentist and Bayesian frameworks
 - distinguish between and use joint, conditional, and marginal probabilities
@@ -64,7 +61,7 @@ This course is an applied first course in Bayesian data analysis. After reviewin
 - interpret data and simulation results in the context of the research question
 - disseminate analysis results to non-technical audiences
 
-##### Course Materials
+### Course Materials
 
 The following are books that we will be using directly in class:
 
@@ -86,7 +83,7 @@ The following texts are recommended as references, but not required. The links b
 
 - [Probability and Bayesian Modeling](https://bayesball.github.io/BOOK/probability-a-measurement-of-uncertainty.html) by Albert and Hu.
 
-##### Course Format and Organization
+### Course Format and Organization
 
 This course will be taught synchronously via Zoom. You may join the classroom here: Zoom Classroom (see Canvas). 
 
@@ -94,7 +91,7 @@ Note that all lectures will be recorded. If you choose to use the microphone to 
 
 Breakout rooms will be utilized throughout lecture periods. Time in the breakout rooms will not be recorded.
 
-##### Grading and Evaluation
+### Grading and Evaluation
 
 The course grade will be determined as follows:
 
@@ -110,13 +107,13 @@ The course grade will be determined as follows:
 
 It is expected that all work submitted is the **student's own work**. Helping each other with coding is encouraged, however, all written responses should be your own work. Evidence of academic dishonesty, including use of "homework help" websites (e.g., Chegg), use of AI (e.g., ChatGPT), and collaboration with other students, will be submitted to the Dean of Students. A grade of 0 will automatically be assigned for the assignment and **there will be no opportunities to change that grade.** If there are repeated incidents, **the sanctions attached will increase in severity**, including an F in the course and suspension from the university. 
 
-##### Late Policy 
+### Late Policy 
 
 Projects 1 and 2 have due dates, however, the dropboxes will not close until the end of the semester. All students are automatically granted "extensions" for these projects. 
 
 **Extensions are *not available* for the activities or the final exam**.
 
-##### Project Revisions
+### Project Revisions
 
 Projects 1 and 2 are eligible to receive two *non-zero* grades. 
 
@@ -124,7 +121,7 @@ Projects 1 and 2 are eligible to receive two *non-zero* grades.
     
 - Note 2: if projects have formatting issues, I will leave a comment for you and issue a 0 grade *solely* for the purpose of Canvas notifying me when you've resubmitted. This 0 *does not* count towards the count of non-zero grades.
 
-##### Course Grade 
+### Course Grade 
 
 Final course grades will be determined according to the following scale. Conventional rounding rules will be applied.
 
@@ -142,7 +139,7 @@ D+|67%--69%
 D|60%--66%
 F|< 60%
 
-##### Important University Dates
+### Important University Dates
 
 Date|Event
 ---|---
@@ -164,7 +161,7 @@ Students who are requesting a late withdrawal from class must have the approval 
 
 Requests without documentation should not be accepted. A request for a late withdrawal simply for not succeeding in a course does not meet the criteria for approval and should not be approved.
 
-##### Additional Information for Students
+### Additional Information for Students
 
 Please see the University's Confluence page for additional syllabus statements: [https://confluence.uwf.edu/display/public/Additional+Syllabus+Statements](https://confluence.uwf.edu/display/public/Additional+Syllabus+Statements)
 
