@@ -12,7 +12,7 @@ author_profile: false
 
 | Week | Day, Date | Topic                                                   | Lecture | Assignment | Project |
 |:----:|:---------:|---------------------------------------------------------|---------|------------|---------|
-|   1  |  M 08/19  | Intro to R; quiz 0 - due S 08/25                        | [<button type="submit" class="btn btn-primary"><span class="bi-journal-text"></span></button>](~/files/1-Fa24/qmd/W01-L1-intro-to-R-and-Quarto.qmd)
+|   1  |  M 08/19  | Intro to R; quiz 0 - due S 08/25                        | [<button type="submit" class="btn btn-primary"><span class="bi-journal-text"></span></button>](https://github.com/samanthaseals/STA6349/blob/main/files/1-Fa24/qmd/W01-L1-intro-to-R-and-Quarto.qmd)
 [<button type="submit" class="btn btn-secondary"><span class="bi-code-square"></span></button><br>](link)        |  [<button type="submit" class="btn btn-primary"><span class="bi-journal-text"></span></button>](link)
 [<button type="submit" class="btn btn-secondary"><span class="bi-code-square"></span></button><br>](link)          |         |
 |      |  W 08/21  | Wackerly - Ch 2 - Probability                           | [<button type="submit" class="btn btn-primary"><span class="bi-journal-text"></span></button>](link)
