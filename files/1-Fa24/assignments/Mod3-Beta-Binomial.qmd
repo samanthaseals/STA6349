@@ -1,5 +1,5 @@
 ---
-title: "STA6349: Distribution Theory"
+title: "STA6349: Beta-Binomial"
 author: "Your Name Here"
 execute:
   echo: true
@@ -12,84 +12,104 @@ format:
 editor: source
 ---
 
-**1. Suppose that the amount of product used in one day, represented by $Y$, has a gamma distribution with $\alpha=1.5$ and $\beta=3.0$.**
+<!-- set up chunk, below -->
 
-**a. Find the probability distribution for $Y$.**
+```{r} 
+#| echo: false
+library(tidyverse)
+library(bayesrules)
+```
 
-**b. What is the mean of the distribution?**
+**Consider a dining survey conducted by a restaurant owner in New York. The owner is also interested in knowing about the proportion $\pi$ of students prefer eating out on Friday. He believes that 40% of the time, $\pi < 0.7$ and 80% of the time, $\pi < 0.9$.**
 
-**c. What is the variance of the distribution?**
+**1. What do the following prior distributions look like? (i.e., please graph them) Do either (or both) represent the owner's beliefs well?**
 
-**d. What is the probability that an earthquake striking the regions will be a minor earthquake (note: the earthquake will fall between 2.0 and 3.0 on the Richter scale)?**
+**Beta(2, 2):**
 
-**e. What is the probability that an earthquake striking the regions will be a strong earthquake (note: minimum value is a 6.0 on the Richter scale) or worse?**
+```{r}
 
-**2. A parking lot has two entrances. Cars arrive at Entrance A at an average of 3 cars per hour and at Entrance B at an average of 4 cars per hour. We assume that the number of cars arriving at the two entrances are independent. Let $Y$ be the number of cars arriving to the parking lot in a given hour. **
+```
 
-**a. Find the probability distribution for $Y$.**
+**Beta(20, 20):**
 
-**b. What is the mean of the distribution?**
+```{r}
 
-**c. What is the variance of the distribution?**
+```
 
-**d. What is the probability that a total of 3 cars will arrive at the parking lot in a given hour?**
 
-**e. What is the probability that 10 or more cars arrive at the parking lot in a given hour?**
-
-**3. During an 8 hour shift, the proportion of time that, $Y$, a sheet-metal stamping machine is down for maintenance or repairs has a beta distribution with $\alpha=1$ and $\beta=2$. Note that we are also interested in the cost (in hundreds of dollars) of downtime, due to lost production and cost of maintenance and repair, given by $C=10+20Y+4Y^2$**
-
-**a. Find the probability distribution for $Y$.**
-
-**b. What is the mean of the distribution $f(y)$?**
-
-**c. What is the variance of the distribution $f(y)$?**
-
-**d. Find the probability distribution for $C$?**
-
-**e. What is the mean of the distribution $f(c)$?**
-
-**f. What is the variance of the distribution $f(c)$?**
-
-**g. What is the probability that the cost is less than $2000? (Note! Remember that $C$ is discussed in hundreds of dollars.)**
+**a. Do these priors have the same mean? Provide appropriate statistical justification in your response.**
 
 
 
-**4. The cycle time for trucks hauling concrete to a highway construction site is consistently between 50 and 70 minutes, with equal probability of any time. Let $Y$ be the cycle time.**
-
-**a. Find the probability distribution for $Y$.**
-
-**b. What is the mean of the distribution?**
-
-**c. What is the variance of the distribution?**
-
-**d. What is the probability that the cycle time is lower than 55 minutes?**
-
-**e. What is the probability that the cycle time is between 55 and 60 minutes?**
+**b. What can you see about the *strength* of the priors?**
 
 
 
-**5. A fire-detection device utilizes three temperature sensitive cells acting independently of each other in a manner that any one or more may activate the alarm. Each cell possesses a probability of $p = 0.80$ of activating the alarm when the temperature reaches 100&deg;C or more. Let $Y$ equal the number of cells activating the alarm when the temperature reaches 100&deg;C.**
+**2. Suppose a survey yields 4 successes out of 10 responses. Find the posterior distributions with the following priors:**
 
-**a. Find the probability distribution for $Y$.**
+**Beta(2, 2):**
 
-**b. What is the mean of the distribution?**
+```{r}
 
-**c. What is the variance of the distribution?**
+```
 
-**d. Find the probability that the alarm will function when the temperature reaches 100&deg;C.**
+**Beta(20, 20):**
+
+```{r}
+
+```
+
+**Comparison:**
+
+<!-- what is similar? what is different? how did the different shapes/strengths of the priors affect the posterior? is this logical given your answer to 1b? -->
+
+**3. The restaurant owner finds information from the previous analysis, where his belief about the proportion of students' favorite dining day being Friday was represented by a Beta(15, 10) distribution, resulted from a prior of Beta(3, 2) and survey results $y=12$ and $n=20$. The owner now wants to conduct another dining survey with the same question: Is Friday your favorite dining day?**
+
+**a. The second survey gives a result of 8 yes out of 20 responses. Use the owner’s current beliefs and this information to update the restaurant owner’s belief about the proportion proportion, $\pi$.**
+
+**Prior:** Beta(15, 10)
+
+**Posterior:** <!-- insert your posterior here please -->
+
+```{r}
+
+```
+
+**b. Let's look at analyzing the combined data. Start with the initial prior of Beta(3, 2) and find the posterior distribution for $y=12+8=20$ out of $n=20+20=40$ responses.**
+
+**Prior:** Beta(3, 2)
+
+**Posterior:** <!-- insert your posterior here please -->
+
+```{r}
+
+```
+
+**c. Are the two posterior distribution the same in parts (a) and (b)? Why or why not?**
 
 
 
-**6. Scores on an examination are assumed to be normally distributed with mean 75 and variance 36. Let $Y$ equal the exam score.**
+**d. Suppose the two survey results are reversed. That is, the first survey gives 8 yes and second survey gives 12 yes. Do you still observe the same posterior as in part (b)? Why or why not?**
 
-**a. Find the probability distribution for $Y$.**
+```{r}
 
-**b. What is the mean of the distribution?**
+```
 
-**c. What is the variance of the distribution?**
+**e. Suppose the two survey results are slightly different: the first survey gives 15 yes and the second survey gives 5 yes. What is the posterior distribution in this case?**
 
-**d. What is the probability that a person taking the examination passes with at least a C- (note: minimum value for C- is 70%)?**
+**Prior:** Beta(3, 2)
 
-**e. What is the probability that a person taking the examination scores above an A or A- (note: minimum value for A- is 90%)**
+**Posterior:** <!-- insert your posterior here please -->
 
-**f. Suppose the students scoring in the 10% of this distribution are to receive an A grade. What is the minimum score a student must achieve to earn an A grade?**
+```{r}
+
+```
+
+**4. Should we combine the two survey results together? Why or why not?** 
+
+
+
+**5. Describe a scenario where you believe it would be inappropriate to combine the survey results.**
+
+
+
