@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 <center>
-[![](https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/bayes-bats-hex.png | width=115)](https://www.stat.uci.edu/bayes-bats/) [![](https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/bayes-rules-hex.png | width=100x)](https://www.bayesrulesbook.com) 
+![](https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/bayes-bats-hex.png | width=115) ![](https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/bayes-rules-hex.png | width=100x)
 </center>
 
 Welcome to STA6349: Applied Bayesian Analysis! <br>
