@@ -1,5 +1,3 @@
-# STA6349 - Applied Bayesian Analysis 
+**STA6349 - Applied Bayesian Analysis**
 
-This is the repository for STA6349 - Applied Bayesian Analysis
-
-Please select the semester, above.
+Course website: [STA6349: Applied Bayesian Analysis](https://samanthaseals.github.io/STA6349).
