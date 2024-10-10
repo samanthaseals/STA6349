@@ -4,12 +4,12 @@
 # prevent it from being included in the site.
 
 main:
-  - title: "About"
-    url: /
-    
   - title: "Syllabus"
     url: /syllabus/
     
   - title: "Schedule"
     url: /schedule/
+    
+  - title: "GitHub Repo"
+    url: https://github.com/samanthaseals/STA6349/files
   
