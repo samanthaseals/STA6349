@@ -63,13 +63,13 @@ This course is an applied first course in Bayesian data analysis. After reviewin
 The following are books that we will be using directly in class:
 
 <center>
-<img src="https://github.com/samanthaseals/STA6349/blob/main/images/Wackerly.png" width = 100>
+<img src="https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/Wackerly.png" width = 100>
 </center>
 
 - [Mathematical Statistics with Applications](https://www.cengage.com/c/mathematical-statistics-with-applications-7e-wackerly/9780495110811/) by Wackerly, Mendenhall, and Scheaffer.
 
 <center>
-<img src="https://github.com/samanthaseals/STA6349/blob/main/images/Johnson.png" width = 100>
+<img src="https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/Johnson.png" width = 100>
 </center>
 
 - [Bayes Rules! An Introduction to Applied Bayesian Modeling](https://www.bayesrulesbook.com/) by Johnson, Ott, and Dogucu.
