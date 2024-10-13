@@ -1,0 +1,131 @@
+---
+title: "STA6349: Probability Theory"
+author: "Your Name Here"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  html:
+    embed-resources: true
+editor: source
+---
+
+<!-- this is an html comment - notice it does not appear on the rendered file
+
+The following should help you with typesetting:
+
+$$
+\begin{align*}
+P[A \cup B] &= P[A] + P[B] - P[A \and B] \\
+P[A \cap B] &= P[A|B] P[B] \\
+P[A^c] &= 1-P[A]
+\end{align*}
+$$
+
+The align* environment will align equations for us. The asterick is telling LaTeX not to number the equation. 
+
+The & tells LaTeX where to align the equation's lines. Note: it does not have to be attached to an =.
+
+The \\ breaks to a new line. This is standard LaTeX syntax.
+
+Because we are in display mode (notice that the align* environment is wrapped by $$), LaTeX assumes that everything is math. If we need to insert text, you can use \text{text here} to insert.
+
+Please refer to my .qmd files on GitHub for any "how did you typeset this on the slides?" - this is why I make everything available for students.
+
+-->
+
+**1. Hydraulic landing assemblies coming from an aircraft rework facility are each inspected for defects. Historical records indicate that 8% have defects in shafts only, 6% have defects in bushings only, and 2% have defects in both shafts and bushings. One of the hydraulic assemblies is selected randomly. What is the probability that the assembly has:**
+
+**a. a bushing defect?**
+
+**b. a shaft or bushing defect?**
+
+**c. exactly one of the two types of defects?**
+
+**d. neither type of defect?**
+
+**2. Five cards are dealt from a [standard 52-card deck](https://en.wikipedia.org/wiki/Standard_52-card_deck#/media/File:Piatnikcards.jpg). What is the probability that we draw:**
+
+**a. 3 aces and 2 kings?**
+
+**b. a "[full house](https://en.wikipedia.org/wiki/List_of_poker_hands#Full_house)" - 3 cards of one kind, 2 cards of another kind?**
+
+**c. 1 ace, 1 two, 1 three, 1 four, and 1 five?**
+
+**d. any "[straight](https://en.wikipedia.org/wiki/List_of_poker_hands#Straight)" at all?**
+
+**3. One hundred adults were interviewed in a telephone survey. Of interest was their opinions regarding the loan burdens of college students and whether the respondent had a child currently in college. Their responses are summarized in the table below:**
+
+<!-- below is a html table; I generated the code with tablesgenerator.com -->
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;margin:0px auto;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-wp8o{border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-73oq{border-color:#000000;text-align:left;vertical-align:top}
+.tg .tg-lmxn{border-color:#000000;font-style:italic;text-align:left;vertical-align:top}
+@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;margin: auto 0px;}}</style>
+<div class="tg-wrap"><table class="tg"><tbody>
+  <tr>
+    <td class="tg-73oq"></td>
+    <td class="tg-wp8o" colspan="4">Loan Burden</td>
+  </tr>
+  <tr>
+    <td class="tg-wp8o">Child in College</td>
+    <td class="tg-wp8o">Too High (*A*)</td>
+    <td class="tg-wp8o">About Right (*B*)</td>
+    <td class="tg-wp8o">Too Little (*C*)</td>
+    <td class="tg-wp8o"><span style="font-style:italic">Total</span></td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Yes (*D*)</td>
+    <td class="tg-wp8o">0.20</td>
+    <td class="tg-wp8o">0.09</td>
+    <td class="tg-wp8o">0.01</td>
+    <td class="tg-wp8o">0.30</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">No (*E*)</td>
+    <td class="tg-wp8o">0.41</td>
+    <td class="tg-wp8o">0.21</td>
+    <td class="tg-wp8o">0.08</td>
+    <td class="tg-wp8o">0.70</td>
+  </tr>
+  <tr>
+    <td class="tg-lmxn">Total</td>
+    <td class="tg-wp8o">0.61</td>
+    <td class="tg-wp8o">0.30</td>
+    <td class="tg-wp8o">0.09</td>
+    <td class="tg-wp8o">1.00</td>
+  </tr>
+</tbody>
+</table></div><br>
+
+**Which of the following are independent events?**
+
+**a. *A* and *D* **
+
+**b. *B* and *D* **
+
+**c. *C* and *D* **
+
+
+**4. A survey of consumers in a particular community showed that 10% were dissatisfied with plumbing jobs done in their homes. Half the complaints dealt with plumber *A*, who does 40% of the plumbing jobs in the town. Find the probability that a consumer will obtain:**
+
+**a. an unsatisfactory plumbing job, given that the plumber was *A*.**
+
+**b. a satisfactory plumbing job, given that the plumber was *A*.**
+
+**5. Articles coming through an inspection line are visually inspected by two successive inspectors. When a defective article comes through the inspection line, the probability that it gets by the first inspector is 0.10. The second inspector will "miss" five out of ten of the defective items that get past the first inspector. What is the probability that a defective item gets by both inspectors?**
+
+**6. A football team has a probability of 0.75 of winning when playing any of the other four teams in its conference. If the games are independent, what is the probability that the team wins all its conference games?**
+
+**7. A diagnostic test for a disease is such that it (correctly) detects the disease in 90% of the individuals who actually have the disease. If a person does not have the disease, the test will report that he or she does not have it with probability 0.90. It is known that only 1% of the population has the disease in question.**
+
+**a. If a person is chosen at random from the population and the diagnostic test indicates that they have the disease, what is the conditional probability that they do actually have the disease?**
+
+**b. Do you think this test is reliable? Why or why not?**
