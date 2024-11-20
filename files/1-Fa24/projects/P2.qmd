@@ -1,0 +1,69 @@
+---
+title: "Project 2: Fall 2024"
+execute:
+  echo: true
+  warning: false
+  message: false
+  error: true
+format: 
+  html:
+    embed-resources: true
+editor: source
+---
+
+**Groups:**
+
+- *Adelies*: Vera, Sarlina, Lionel, RK, Killian, Johnny
+
+- *Chinstraps*: Heather, Maria, Hailee, Carolyn, Liz, Sara
+						
+- *Gentoos*: Chris, Catherine, Andee, Curtis, Hooman, Jacob.
+
+**Set Up:**
+
+- Let $\mu$ denote the typical flipper length (in mm) among the penguin species your group was assigned. To learn about $\mu$, we'll utilize flipper measurements $(Y_1, Y_2, ..., Y_n)$ on a sample of penguins.
+
+- The `penguins_bayes` data in the `bayesrules` package contains data on the flipper lengths for a sample of three different penguin species. For the species you were assigned, you will disseminate an analysis on penguin flipper length.
+
+**Deliverable 1:** a presentation on Monday, November 25. 
+
+- **Slide 1:** Introduce your penguin species and the measure(s) we are interested in estimating.
+
+- **Slide 2:** Explain which Bayesian model is appropriate for this analysis: Beta-Binomial, Gamma-Poisson, or Normal-Normal.
+
+- **Slide 3:** Do some basic research to determine what the average flipper length for your species is.
+
+    - Note: you should not *calculate* anything here. You should obtain plausible values.
+
+- **Slide 4:** Specify (and justify) an appropriate prior model for $\mu$.
+
+- **Slide 5:** Describe the sample data.
+
+    1. How many data points are there?
+    2. What is the sample mean and standard deviation of flipper length?
+    3. Construct a histogram of this species' flipper length.
+
+- **Slide 6:** Specify the posterior model for $\mu$.
+
+- **Slide 7:** Calculate and interpret a middle 95% posterior credible interval for $\mu$.
+
+- **Slide 8:** State the corresponding hypotheses using $H_0$, $H_1$, and $\mu$ . We suspect that there are more and more [extra large penguins](https://en.wikipedia.org/wiki/Pesto_(penguin)), so we hypothesize that the average flipper length is somewhere between (note: this is a two-sided hypothesis test!):
+
+    - Adelies: 210 and 220 mm
+    - Chinstraps: 215 and 225 mm
+    - Gentoos: 240 and 250 mm
+
+- **Slide 9:** Use the credible interval previously constructed to draw a conclusion about the hypotheses on the previous slide. 
+
+- **Slide 10:** Calculate and interpret the posterior probability that your hypothesis is true. Do you still agree with the conclusion you drew in the previous slide?
+
+- **Slide 11:** Find the Bayes' Factor for these hypotheses. Explain how this supports your decision in the previous slides.
+
+- **Slide 12:** Summarize your findings: explain your conclusion about $\mu$ based on the evidence gathered / shown in previous slides.
+
+**Deliverable 2:** assessment of presentations.
+
+- Copy [this Google Doc](https://docs.google.com/document/d/1yJuaTMqecwJ6Sc6MnAkYZd8vAbstlwv0jSEkq_y1TfY/edit?usp=sharing) to your account and fill out as you watch presentations.
+
+
+
