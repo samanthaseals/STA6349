@@ -2,6 +2,7 @@
 permalink: /syllabus/
 title: "STA6349: Applied Bayesian Analysis - Fall 2024"
 author_profile: false
+sitemap: false
 ---
 
 ## Instructor Information
@@ -20,14 +21,14 @@ author_profile: false
 
 - Monday: 1:00 - 3:00 pm (Central)
 - Tuesday: 1:00 - 3:00 pm (Central)
-- Wednesday: 10:00 am - 12:00 pm (Central)
+- Thursday: 10:00 am - 12:00 pm (Central)
 - Other times by appointment
 
 ## Class Websites
 
-- GitHub repository: [https://github.com/samanthaseals/STA6349](https://github.com/samanthaseals/STA6349)
+- GitHub repository: [https://github.com/samanthaseals/STA6349Fa24](https://github.com/samanthaseals/STA6349Fa24)
 
-- GitHub website: [https://samanthaseals.github.io/STA6349](https://samanthaseals.github.com/STA6349)
+- GitHub website: [https://samanthaseals.github.io/STA6349Fa24](https://samanthaseals.github.com/STA6349Fa24)
 
 - Discord server: Applied Bayesian Analysis - Fall 2024 (see Canvas for link)
 
@@ -63,13 +64,13 @@ This course is an applied first course in Bayesian data analysis. After reviewin
 The following are books that we will be using directly in class:
 
 <center>
-<img src="https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/Wackerly.png" width = 100>
+<img src="https://raw.githubusercontent.com/samanthaseals/STA6349Fa24/refs/heads/main/images/Wackerly.png" width = 100>
 </center>
 
 - [Mathematical Statistics with Applications](https://www.cengage.com/c/mathematical-statistics-with-applications-7e-wackerly/9780495110811/) by Wackerly, Mendenhall, and Scheaffer.
 
 <center>
-<img src="https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/Johnson.png" width = 100>
+<img src="https://raw.githubusercontent.com/samanthaseals/STA6349Fa24/refs/heads/main/images/Johnson.png" width = 100>
 </center>
 
 - [Bayes Rules! An Introduction to Applied Bayesian Modeling](https://www.bayesrulesbook.com/) by Johnson, Ott, and Dogucu.

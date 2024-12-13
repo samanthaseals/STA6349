@@ -2,13 +2,14 @@
 permalink: /
 title: ""
 author_profile: false
+sitemap: false
 redirect_from: 
   - /about/
   - /about.html
 ---
 
 <center>
-<img src = "https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/bayes-bats-hex.png" width=115><img src = "https://raw.githubusercontent.com/samanthaseals/STA6349/refs/heads/main/images/bayes-rules-hex.png" width=100>
+<img src = "https://raw.githubusercontent.com/samanthaseals/STA6349Fa24/refs/heads/main/images/bayes-bats-hex.png" width=115><img src = "https://raw.githubusercontent.com/samanthaseals/STA6349Fa24/refs/heads/main/images/bayes-rules-hex.png" width=100>
 </center>
 
 Welcome to STA6349: Applied Bayesian Analysis! <br>
