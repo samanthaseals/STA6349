@@ -22,12 +22,12 @@ repository               : "samanthaseals/STA6349Fa24"
 #author:
   # Biographic information
   avatar           : #""
-  name             : #""
-  pronouns         : # example: "she/her"  
+  name             : "Samantha Seals, PhD"
+  pronouns         : "she/her"  
   bio              : # ""
   location         : # ""
-  employer         : #"University of West Florida"
-  uri              : # URL
+  employer         : "University of West Florida"
+  uri              : http://samanthaseals.github.io
   email            : #"sseals@uwf.edu" 
 
   # Academic websites
