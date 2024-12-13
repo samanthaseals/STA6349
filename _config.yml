@@ -12,23 +12,23 @@ title                    : "STA6349: Applied Bayesian Analysis"
 title_separator          : "-"
 name                     : &name "Samantha Seals"
 description              : &description "Applied Bayesian Analysis"
-url                      : https://samanthaseals.github.io/STA6349 # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : https://samanthaseals.github.io/STA6349Fa24 # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
-repository               : "samanthaseals/STA6349"
+repository               : "samanthaseals/STA6349Fa24"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
 #               Additional customization can be done by editing /_includes/author-profile.html
-author:
+#author:
   # Biographic information
-  avatar           : "profile.png"
-  name             : "STA6349"
+  avatar           : #""
+  name             : #""
   pronouns         : # example: "she/her"  
   bio              : # ""
   location         : # ""
-  employer         : "University of West Florida"
+  employer         : #"University of West Florida"
   uri              : # URL
-  email            : "sseals@uwf.edu" 
+  email            : #"sseals@uwf.edu" 
 
   # Academic websites
   arxiv            : # URL - Update with the correct link to your profile
