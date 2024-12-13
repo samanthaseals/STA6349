@@ -1,0 +1,47 @@
+---
+title: "Quiz 0 - Fa24" 
+author: "Your Name Here" # insert your name
+format: 
+  html:
+    self-contained: true
+---
+
+**1. What is your name *as it appears on my roster in Classmate*? (Note: this assignment will be used for attendance verification.)**
+
+- Insert your answer here
+
+**2. Is there another name that you prefer to go by?**
+
+- Insert your answer here
+
+**3. What are your pronouns?**
+
+- Insert your answer here
+
+**4. What is your background from undergrad/work experience?**
+
+- Insert your answer here
+
+**5. What statistics courses have you taken previously, and when (approximate is fine) did you take them?**
+
+- Insert your answer here 
+
+**6. Do you have any questions or concerns about this course? If so, please list them and I will respond when I grade this assignment.**
+
+- Insert your answer here 
+
+**7. What interests do you have, outside of school and work?**
+
+- Insert your answer here 
+
+**8. What is your favorite food?**
+
+- Insert your answer here
+
+**9. What is your favorite animal and why?**
+
+- Insert your answer here
+
+**10. Insert a cute image of your favorite animal.**
+
+<!-- hint: google "insert image quarto markdown" -->
